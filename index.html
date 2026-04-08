@@ -12,28 +12,20 @@
 <title>我的戒烟之旅</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
---bg1:#0C1222;--bg2:#162032;--card:#1E293B;--border:#334155;
---green:#10B981;--red:#EF4444;--blue:#60A5FA;--yellow:#FBBF24;--orange:#F97316;--purple:#A78BFA;
---text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;
-}
-html,body{min-height:100vh;min-height:100dvh;font-family:-apple-system,'Noto Sans SC','PingFang SC','Hiragino Sans GB',sans-serif;
-background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-.app{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,16px) + 8px) 12px calc(env(safe-area-inset-bottom,16px) + 8px)}
+:root{--bg1:#0C1222;--bg2:#162032;--card:#1E293B;--border:#334155;--green:#10B981;--red:#EF4444;--blue:#60A5FA;--yellow:#FBBF24;--orange:#F97316;--purple:#A78BFA;--text:#E2E8F0;--text2:#94A3B8;--text3:#64748B}
+html,body{min-height:100vh;min-height:100dvh;font-family:-apple-system,'Noto Sans SC','PingFang SC','Hiragino Sans GB',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+.app{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,16px)+8px) 12px calc(env(safe-area-inset-bottom,16px)+8px)}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
 .card h3{font-size:14px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-button{border:none;border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;
-font-family:inherit;transition:all .15s;-webkit-appearance:none}
+button{border:none;border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;-webkit-appearance:none}
 button:active{transform:scale(.95);opacity:.85}
 .btn-green{background:linear-gradient(135deg,#059669,var(--green));color:#fff}
 .btn-red{background:linear-gradient(135deg,#DC2626,var(--red));color:#fff}
 .btn-blue{background:linear-gradient(135deg,#3B82F6,var(--blue));color:#fff}
-.btn-yellow{background:linear-gradient(135deg,#D97706,var(--yellow));color:#fff}
 .btn-sm{padding:8px 14px;font-size:13px;border-radius:8px}
 .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
 .action-grid{display:flex;flex-direction:column;gap:10px}
-.action-btn{display:flex;align-items:center;gap:14px;padding:18px 16px;border-radius:14px;border:1px solid var(--border);
-background:var(--bg1);cursor:pointer;transition:all .15s;text-align:left}
+.action-btn{display:flex;align-items:center;gap:14px;padding:18px 16px;border-radius:14px;border:1px solid var(--border);background:var(--bg1);cursor:pointer;transition:all .15s;text-align:left}
 .action-btn:active{transform:scale(.97);opacity:.85}
 .action-btn .ab-icon{font-size:32px;width:44px;text-align:center;flex-shrink:0}
 .action-btn .ab-title{font-size:16px;font-weight:700}
@@ -42,34 +34,28 @@ background:var(--bg1);cursor:pointer;transition:all .15s;text-align:left}
 .action-btn.yellow{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)}
 .action-btn.red{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)}
 .timer-wrap{text-align:center;padding:8px 0}
-.timer-display{font-family:'Courier New','Menlo',monospace;font-size:30px;font-weight:700;color:var(--green);
-letter-spacing:2px;text-shadow:0 0 24px rgba(16,185,129,.25)}
+.timer-display{font-family:'Courier New','Menlo',monospace;font-size:30px;font-weight:700;color:var(--green);letter-spacing:2px;text-shadow:0 0 24px rgba(16,185,129,.25)}
 .timer-label{color:var(--text2);font-size:13px;margin-bottom:6px}
 .phase-bar{display:flex;gap:4px;margin:8px 0}
-.phase-seg{flex:1;height:6px;border-radius:3px;background:var(--border);position:relative;overflow:hidden}
+.phase-seg{flex:1;height:6px;border-radius:3px;background:var(--border);overflow:hidden}
 .phase-seg .fill{height:100%;border-radius:3px;background:var(--green);transition:width .5s}
 .phase-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text2)}
 .phase-goal{margin-top:10px;padding:10px;border-radius:10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);font-size:13px}
 .phase-goal .label{color:var(--green);font-weight:600;font-size:12px;margin-bottom:4px}
-.tag-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);
-border-radius:20px 20px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,16px) + 16px);z-index:100;
-transform:translateY(100%);transition:transform .3s ease;max-width:480px;margin:0 auto}
+.tag-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);border-radius:20px 20px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,16px)+16px);z-index:100;transform:translateY(100%);transition:transform .3s ease;max-width:480px;margin:0 auto}
 .tag-sheet.open{transform:translateY(0)}
-.tag-sheet-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:99;
-opacity:0;pointer-events:none;transition:opacity .3s}
+.tag-sheet-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
 .tag-sheet-bg.open{opacity:1;pointer-events:auto}
 .tag-sheet h4{font-size:15px;margin-bottom:6px;text-align:center}
 .tag-sheet .sub{font-size:12px;color:var(--text3);text-align:center;margin-bottom:14px}
 .tags-wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
-.tag{padding:8px 14px;border-radius:20px;font-size:13px;background:var(--bg1);border:1px solid var(--border);
-cursor:pointer;transition:all .15s}
+.tag{padding:8px 14px;border-radius:20px;font-size:13px;background:var(--bg1);border:1px solid var(--border);cursor:pointer;transition:all .15s}
 .tag:active{transform:scale(.95)}
 .tag.sel{border-color:var(--blue);background:rgba(96,165,250,.15);color:var(--blue)}
 .tag-actions{display:flex;gap:8px}
 .tag-actions button{flex:1}
 .nrt-row{display:flex;gap:8px;justify-content:center;margin:10px 0}
-.nrt-btn{padding:8px 16px;border-radius:10px;font-size:14px;font-weight:600;
-background:var(--bg1);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s}
+.nrt-btn{padding:8px 16px;border-radius:10px;font-size:14px;font-weight:600;background:var(--bg1);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s}
 .nrt-btn:active{transform:scale(.95)}
 .nrt-btn.sel{border-color:var(--yellow);color:var(--yellow);background:rgba(251,191,36,.1)}
 .timeline{max-height:300px;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -83,16 +69,13 @@ background:var(--bg1);border:1px solid var(--border);color:var(--text2);cursor:p
 .ev-empty{text-align:center;color:var(--text3);font-size:13px;padding:20px 0}
 .review-card{border:1px solid rgba(96,165,250,.3);background:rgba(96,165,250,.05)}
 .mood-row{display:flex;gap:8px;margin:10px 0}
-.mood-btn{flex:1;min-width:55px;padding:10px 4px;text-align:center;background:var(--bg1);border:1px solid var(--border);
-border-radius:10px;font-size:22px;cursor:pointer;transition:all .15s}
+.mood-btn{flex:1;min-width:55px;padding:10px 4px;text-align:center;background:var(--bg1);border:1px solid var(--border);border-radius:10px;font-size:22px;cursor:pointer;transition:all .15s}
 .mood-btn:active{transform:scale(.95)}
 .mood-btn.sel{border-color:var(--green);background:rgba(16,185,129,.15)}
 .mood-btn span{display:block;font-size:10px;color:var(--text3);margin-top:2px}
-textarea{width:100%;background:var(--bg1);border:1px solid var(--border);border-radius:8px;color:var(--text);
-padding:8px;font-family:inherit;font-size:13px;resize:none;min-height:50px}
+textarea{width:100%;background:var(--bg1);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-family:inherit;font-size:13px;resize:none;min-height:50px}
 .grid21{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0}
-.grid21 .cell{aspect-ratio:1;border-radius:8px;background:var(--bg1);border:1px solid var(--border);
-display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text3)}
+.grid21 .cell{aspect-ratio:1;border-radius:8px;background:var(--bg1);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text3)}
 .grid21 .cell.pass{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3)}
 .grid21 .cell.fail{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2)}
 .grid21 .cell .day{font-size:9px;opacity:.6}
@@ -105,13 +88,14 @@ display:flex;flex-direction:column;align-items:center;justify-content:center;fon
 .milestone.done .info .t{color:var(--green)}
 .milestone.next{background:rgba(251,191,36,.05);border-radius:8px;padding:8px;margin:-2px}
 .milestone.next .info .t{color:var(--yellow)}
+.milestone.locked{opacity:.4}
 .bar-chart{display:flex;align-items:flex-end;gap:2px;height:100px;padding-top:10px}
 .bar-chart .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bar-chart .bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;transition:height .3s}
-.bar-chart .bar-label{font-size:8px;color:var(--text3)}
+.bar-chart .bar-label{font-size:8px;color:var(--text3);white-space:nowrap}
 .bar-chart .bar-val{font-size:8px;color:var(--text2)}
-.stat-row{display:flex;gap:6px;margin-bottom:10px}
-.stat-box{flex:1;text-align:center;padding:10px 6px;background:var(--bg1);border-radius:10px;border:1px solid var(--border)}
+.stat-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:28%;text-align:center;padding:10px 6px;background:var(--bg1);border-radius:10px;border:1px solid var(--border)}
 .stat-box .num{font-size:20px;font-weight:700}
 .stat-box .lbl{font-size:10px;color:var(--text3);margin-top:2px}
 .badges{display:flex;flex-wrap:wrap;gap:8px}
@@ -120,17 +104,14 @@ display:flex;flex-direction:column;align-items:center;justify-content:center;fon
 .cost-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
 .cost-item:last-child{border:none}
 .saved{font-size:28px;font-weight:700;color:var(--green);text-align:center;padding:10px 0}
-.tabs{display:flex;gap:4px;margin-bottom:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;
-background:linear-gradient(180deg,var(--bg1) 70%,transparent);padding:8px 0 12px}
-.tab{flex:1;padding:10px 4px;text-align:center;border-radius:10px;font-size:12px;font-weight:600;
-background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s}
+.tabs{display:flex;gap:4px;margin-bottom:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:linear-gradient(180deg,var(--bg1) 70%,transparent);padding:8px 0 12px}
+.tab{flex:1;padding:10px 4px;text-align:center;border-radius:10px;font-size:12px;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s}
 .tab:active{transform:scale(.96)}
 .tab.active{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
 .quote{text-align:center;font-size:13px;color:var(--text2);font-style:italic;padding:8px 0;line-height:1.6}
 footer{text-align:center;font-size:11px;color:var(--text3);padding:20px 0 40px}
 .hidden{display:none!important}
-.celebrate{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
-background:rgba(0,0,0,.7);z-index:200;animation:fadeIn .3s}
+.celebrate{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:200;animation:fadeIn .3s}
 .celebrate-inner{text-align:center;padding:30px;animation:popIn .4s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
@@ -139,16 +120,14 @@ background:rgba(0,0,0,.7);z-index:200;animation:fadeIn .3s}
 .celebrate .sub{font-size:13px;color:var(--text2);margin-bottom:16px}
 .confetti{position:fixed;top:-10px;font-size:20px;animation:confettiFall 3s linear forwards;z-index:201;pointer-events:none}
 @keyframes confettiFall{to{top:110vh;opacity:0}}
-.toast{position:fixed;top:calc(env(safe-area-inset-top,16px) + 60px);left:50%;transform:translateX(-50%) translateY(-20px);
-background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;z-index:50;
-opacity:0;transition:all .3s;pointer-events:none;font-size:14px;text-align:center;max-width:340px;
-box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast{position:fixed;top:calc(env(safe-area-inset-top,16px)+60px);left:50%;transform:translateX(-50%) translateY(-20px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;z-index:50;opacity:0;transition:all .3s;pointer-events:none;font-size:14px;text-align:center;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hist-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .hist-item:last-child{border:none}
 .err-box{background:var(--red);color:#fff;padding:16px;border-radius:12px;margin:20px;text-align:center}
 .err-box button{margin-top:10px;background:#fff;color:var(--red)}
 input[type="text"],input[type="number"]{padding:8px;border-radius:8px;background:var(--bg1);border:1px solid var(--border);color:var(--text);font-size:13px;font-family:inherit}
+#import-input{display:none}
 </style>
 </head>
 <body>
@@ -160,210 +139,149 @@ input[type="text"],input[type="number"]{padding:8px;border-radius:8px;background
 <div class="tab" data-tab="hist" onclick="switchTab('hist')">📋 记录</div>
 </div>
 <div id="tab-main">
-<div class="card">
-<div class="timer-wrap">
-<div class="timer-label">已坚持</div>
-<div class="timer-display" id="timer">0天 00:00:00</div>
-</div>
-<div id="start-section" style="text-align:center;margin-top:6px">
-<button class="btn-green" onclick="startJourney()" id="start-btn">开始戒烟之旅</button>
-</div>
-</div>
-<div class="card" id="phase-card">
-<h3>📋 当前阶段</h3>
-<div id="phase-name" style="font-size:15px;font-weight:600;color:var(--green);margin-bottom:4px"></div>
-<div class="phase-bar" id="phase-bar"></div>
-<div class="phase-info"><span id="phase-day"></span><span id="phase-remain"></span></div>
-<div class="phase-goal" id="phase-goal"><div class="label">今日目标</div><div id="phase-goal-text"></div></div>
-<div id="phase-result" style="margin-top:8px;text-align:center;font-size:13px"></div>
-</div>
-<div class="card" id="action-card">
-<h3>💪 此刻的你</h3>
-<div class="action-grid">
-<div class="action-btn green" onclick="logEvent('resist')">
-<div class="ab-icon">✊</div>
-<div><div class="ab-title">忍住了</div><div class="ab-desc">烟瘾来了，但我扛过去了</div></div>
-</div>
-<div class="action-btn yellow" onclick="logEvent('nrt')">
-<div class="ab-icon">💊</div>
-<div><div class="ab-title">用了替代</div><div class="ab-desc">口含烟 / 口香糖 / 其他NRT</div></div>
-</div>
-<div class="action-btn red" onclick="logEvent('slip')">
-<div class="ab-icon">🚬</div>
-<div><div class="ab-title">没忍住</div><div class="ab-desc">抽了，如实记录不自责</div></div>
-</div>
-</div>
-</div>
-<div class="card">
-<h3>📝 今日记录</h3>
-<div id="today-timeline" class="timeline"></div>
-</div>
-<div class="card review-card" id="review-card">
-<h3>🌙 今日回顾 <span style="font-size:11px;color:var(--text3);font-weight:400">（可选）</span></h3>
-<div style="font-size:13px;color:var(--text2);margin-bottom:8px">今天整体感觉怎么样？</div>
-<div class="mood-row" id="mood-row">
-<div class="mood-btn" data-mood="0" onclick="selMood(0)">😫<span>煎熬</span></div>
-<div class="mood-btn" data-mood="1" onclick="selMood(1)">😐<span>一般</span></div>
-<div class="mood-btn" data-mood="2" onclick="selMood(2)">😊<span>还行</span></div>
-<div class="mood-btn" data-mood="3" onclick="selMood(3)">💪<span>轻松</span></div>
-</div>
-<textarea id="note-input" placeholder="写点什么..."></textarea>
-<button class="btn-blue" style="width:100%;margin-top:8px" onclick="saveReview()">保存回顾</button>
-</div>
+<div class="card"><div class="timer-wrap"><div class="timer-label">已坚持</div><div class="timer-display" id="timer">0天 00:00:00</div></div><div id="start-section" style="text-align:center;margin-top:6px"><button class="btn-green" onclick="startJourney()" id="start-btn">开始戒烟之旅</button></div></div>
+<div class="card" id="phase-card"><h3>📋 当前阶段</h3><div id="phase-name" style="font-size:15px;font-weight:600;color:var(--green);margin-bottom:4px"></div><div class="phase-bar" id="phase-bar"></div><div class="phase-info"><span id="phase-day"></span><span id="phase-remain"></span></div><div class="phase-goal"><div class="label">今日目标</div><div id="phase-goal-text"></div></div><div id="phase-result" style="margin-top:8px;text-align:center;font-size:13px"></div></div>
+<div class="card" id="action-card"><h3>💪 此刻的你</h3><div class="action-grid"><div class="action-btn green" onclick="logEvent('resist')"><div class="ab-icon">✊</div><div><div class="ab-title">忍住了</div><div class="ab-desc">烟瘾来了，但我扛过去了</div></div></div><div class="action-btn yellow" onclick="logEvent('nrt')"><div class="ab-icon">💊</div><div><div class="ab-title">用了替代</div><div class="ab-desc">口含烟 / 口香糖 / 其他NRT</div></div></div><div class="action-btn red" onclick="logEvent('slip')"><div class="ab-icon">🚬</div><div><div class="ab-title">没忍住</div><div class="ab-desc">抽了，如实记录不自责</div></div></div></div></div>
+<div class="card"><h3>📝 今日记录</h3><div id="today-timeline" class="timeline"></div></div>
+<div class="card review-card"><h3>🌙 今日回顾 <span style="font-size:11px;color:var(--text3);font-weight:400">（可选）</span></h3><div style="font-size:13px;color:var(--text2);margin-bottom:8px">今天整体感觉怎么样？</div><div class="mood-row"><div class="mood-btn" data-mood="0" onclick="selMood(0)">😫<span>煎熬</span></div><div class="mood-btn" data-mood="1" onclick="selMood(1)">😐<span>一般</span></div><div class="mood-btn" data-mood="2" onclick="selMood(2)">😊<span>还行</span></div><div class="mood-btn" data-mood="3" onclick="selMood(3)">💪<span>轻松</span></div></div><textarea id="note-input" placeholder="写点什么..."></textarea><button class="btn-blue" style="width:100%;margin-top:8px" onclick="saveReview()">保存回顾</button></div>
 <div class="card"><div class="quote" id="daily-quote"></div></div>
-<div class="card">
-<h3>📅 21天进度</h3>
-<div style="font-size:11px;color:var(--text3);margin-bottom:6px">✅ 达标 · ⚠️ 有滑落 · ⬜ 未来</div>
-<div class="grid21" id="grid21"></div>
-</div>
-<div class="card">
-<h3>🏥 健康里程碑</h3>
-<div id="milestones"></div>
-</div>
-<div class="card">
-<h3>🏆 成就徽章</h3>
-<div class="badges" id="badges"></div>
-</div>
+<div class="card"><h3>📅 最近21天</h3><div style="font-size:11px;color:var(--text3);margin-bottom:6px">✅ 达标 · ⚠️ 有滑落 · ⬜ 未来</div><div class="grid21" id="grid21"></div></div>
+<div class="card"><h3>🎯 阶段性成就</h3><div id="phase-milestones"></div></div>
+<div class="card"><h3>🏥 健康恢复 <span style="font-size:11px;color:var(--text3);font-weight:400">（完全停止尼古丁后开始计时）</span></h3><div id="health-milestones"></div></div>
+<div class="card"><h3>🏆 连续达标徽章</h3><div class="badges" id="badges"></div></div>
 </div>
 <div id="tab-stats" class="hidden">
 <div class="card"><h3>📈 本周总结</h3><div class="stat-row" id="weekly-stats"></div></div>
 <div class="card"><h3>✊ vs 🚬 本周对抗</h3><div class="bar-chart" id="weekly-battle-chart"></div></div>
+<div class="card"><h3>🚬 本周吸入口数</h3><div class="bar-chart" id="puffs-chart"></div></div>
 <div class="card"><h3>⏰ 烟瘾高发时段</h3><div class="bar-chart" id="hourly-chart"></div></div>
 <div class="card"><h3>🏷️ 触发原因 TOP</h3><div id="trigger-stats"></div></div>
 <div class="card"><h3>😊 心情趋势</h3><div class="bar-chart" id="mood-chart" style="height:80px"></div></div>
 <div class="card"><h3>📊 忍住率趋势</h3><div class="bar-chart" id="resist-rate-chart"></div></div>
 </div>
 <div id="tab-cost" class="hidden">
-<div class="card"><h3>💰 已省下</h3><div class="saved" id="saved-amount">$0.00</div>
-<div style="text-align:center;font-size:12px;color:var(--text2)">日均花费：<span id="daily-cost">$0.00</span></div></div>
-<div class="card"><h3>🛒 之前的消费</h3><div id="cost-list"></div>
-<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-<input id="ci-name" type="text" placeholder="产品名称" style="flex:2;min-width:80px">
-<input id="ci-price" type="number" placeholder="$价格" style="flex:1;min-width:50px">
-<input id="ci-days" type="number" placeholder="天数" style="flex:1;min-width:40px">
-</div>
-<button class="btn-blue btn-sm" style="margin-top:8px;width:100%" onclick="addCostItem()">添加产品</button></div>
+<div class="card"><h3>💰 已省下</h3><div class="saved" id="saved-amount">$0.00</div><div style="text-align:center;font-size:12px;color:var(--text2)">日均花费：<span id="daily-cost">$0.00</span></div></div>
+<div class="card"><h3>🛒 之前的消费</h3><div id="cost-list"></div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap"><input id="ci-name" type="text" placeholder="产品名称" style="flex:2;min-width:80px"><input id="ci-price" type="number" placeholder="$价格" style="flex:1;min-width:50px"><input id="ci-days" type="number" placeholder="天数" style="flex:1;min-width:40px"></div><button class="btn-blue btn-sm" style="margin-top:8px;width:100%" onclick="addCostItem()">添加产品</button></div>
 </div>
 <div id="tab-hist" class="hidden">
 <div class="card"><h3>📋 完整记录</h3><div id="history-list"></div></div>
 <div class="card" style="text-align:center">
-<button class="btn-blue btn-sm" onclick="exportData()">📤 导出JSON备份</button>
-<button class="btn-outline btn-sm" style="margin-left:8px;color:var(--red);border-color:var(--red)" onclick="resetData()">🗑️ 重置数据</button>
+<button class="btn-blue btn-sm" onclick="exportData()">📤 导出备份</button>
+<button class="btn-blue btn-sm" style="margin-left:8px" onclick="document.getElementById('import-input').click()">📥 导入备份</button>
+<input type="file" id="import-input" accept=".json" onchange="importData(event)">
+<div style="margin-top:12px"><button class="btn-outline btn-sm" style="color:var(--red);border-color:var(--red)" onclick="resetData()">🗑️ 重置数据</button></div>
 </div>
 </div>
-<footer>我的戒烟之旅 · 你比你想象的更强大</footer>
+<footer>我的戒烟之旅 v3 · 你比你想象的更强大</footer>
 </div>
 <div class="tag-sheet-bg" id="tag-bg" onclick="closeTagSheet()"></div>
 <div class="tag-sheet" id="tag-sheet">
-<h4 id="ts-title"></h4>
-<div class="sub" id="ts-sub"></div>
-<div id="ts-nrt" class="hidden">
-<div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:4px">口含烟浓度</div>
-<div class="nrt-row" id="ts-nrt-row"></div>
-</div>
-<div id="ts-slip-type" class="hidden">
-<div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:6px">用了什么？</div>
-<div class="tags-wrap" id="slip-types"></div>
-</div>
+<h4 id="ts-title"></h4><div class="sub" id="ts-sub"></div>
+<div id="ts-nrt" class="hidden"><div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:4px">口含烟浓度</div><div class="nrt-row" id="ts-nrt-row"></div></div>
+<div id="ts-slip-type" class="hidden"><div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:6px">用了什么？</div><div class="tags-wrap" id="slip-types"></div></div>
+<div id="ts-puffs" class="hidden"><div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:6px">吸了几口？</div><div class="tags-wrap" id="puffs-options"></div></div>
 <div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:6px">什么触发了烟瘾？</div>
 <div class="tags-wrap" id="trigger-tags"></div>
-<div class="tag-actions">
-<button class="btn-outline" onclick="closeTagSheet()">跳过</button>
-<button class="btn-green" onclick="confirmEvent()">记录</button>
-</div>
+<div class="tag-actions"><button class="btn-outline" onclick="closeTagSheet()">跳过</button><button class="btn-green" onclick="confirmEvent()">记录</button></div>
 </div>
 <div class="toast" id="toast"></div>
-<div class="celebrate hidden" id="celebrate" onclick="closeCelebrate()">
-<div class="celebrate-inner">
-<div class="emoji" id="celeb-emoji"></div>
-<div class="msg" id="celeb-msg"></div>
-<div class="sub" id="celeb-sub"></div>
-<button class="btn-green btn-sm">太棒了！</button>
-</div>
-</div>
+<div class="celebrate hidden" id="celebrate" onclick="closeCelebrate()"><div class="celebrate-inner"><div class="emoji" id="celeb-emoji"></div><div class="msg" id="celeb-msg"></div><div class="sub" id="celeb-sub"></div><button class="btn-green btn-sm">太棒了！</button></div></div>
 <script>
 try{
-var LS='quit_smoking_v2';
+var LS='quit_smoking_v3';
+var DATA_VERSION=3;
 var PHASES=[
 {name:'\u9636\u6bb51\uff1a\u65ad\u624b\u5377',goal:'\u4eca\u5929\u4e0d\u62bd\u624b\u5377\u70df\uff08\u7535\u5b50\u70df\u7167\u5e38\uff0c\u53e3\u542b\u70df6mg\u8f85\u52a9\uff09',slipTypes:['handroll'],days:14},
 {name:'\u9636\u6bb52\uff1a\u66ff\u6362\u7535\u5b50\u70df',goal:'\u5b8c\u6210\u4eca\u5929\u7684\u65e0\u7535\u5b50\u70df\u65f6\u6bb5\uff0c\u7528\u53e3\u542b\u70df\u66ff\u4ee3',slipTypes:['handroll','vape'],days:14},
 {name:'\u9636\u6bb53\uff1a\u8131\u79bb\u7535\u5b50\u70df',goal:'\u4eca\u5929\u5b8c\u5168\u4e0d\u7528\u7535\u5b50\u70df\uff0c\u53ea\u7528\u53e3\u542b\u70df',slipTypes:['handroll','vape'],days:14},
 {name:'\u9636\u6bb54\uff1a\u53e3\u542b\u70df\u9012\u51cf',goal:'\u53ea\u7528\u76ee\u6807\u6d53\u5ea6\u6216\u66f4\u4f4e\u7684\u53e3\u542b\u70df',slipTypes:['handroll','vape','nrt_over'],days:56}
 ];
-var SLIP_TYPES=[
-{id:'handroll',label:'\ud83d\udeb0 \u624b\u5377\u70df'},
-{id:'vape',label:'\ud83d\udca8 \u7535\u5b50\u70df'},
-{id:'nrt_over',label:'\ud83d\udc8a \u53e3\u542b\u70df\u8d85\u6807'}
-];
+var SLIP_TYPES=[{id:'handroll',label:'\ud83d\udeb0 \u624b\u5377\u70df'},{id:'vape',label:'\ud83d\udca8 \u7535\u5b50\u70df'},{id:'nrt_over',label:'\ud83d\udc8a \u53e3\u542b\u70df\u8d85\u6807'}];
+var PUFFS_OPTIONS=[{id:1,label:'1-2\u53e3',val:1.5},{id:2,label:'\u534a\u6839',val:5},{id:3,label:'1\u6839',val:10},{id:4,label:'\u597d\u51e0\u6839',val:25}];
 var TRIGGERS=['\u538b\u529b','\u65e0\u804a','\u996d\u540e','\u5496\u5561/\u8336','\u793e\u4ea4','\u9152\u540e','\u8d77\u5e8a\u540e','\u4e60\u60ef\u6027','\u60c5\u7eea\u4f4e\u843d','\u5f00\u8f66\u65f6','\u4f11\u606f\u65f6','\u5176\u4ed6'];
-var MILESTONES=[
+var PHASE_MILESTONES=[
+{phase:0,day:1,icon:'\ud83d\ude80',t:'\u6b63\u5f0f\u5f00\u59cb',d:'\u8fc8\u51fa\u7b2c\u4e00\u6b65\uff0c\u5df2\u7ecf\u8d62\u4e86\u5f88\u591a\u4eba'},
+{phase:0,day:14,icon:'\ud83d\udeb0',t:'\u624b\u5377\u70df\u518d\u89c1',d:'\u5b8c\u6210\u9636\u6bb51\uff0c\u5f7b\u5e95\u544a\u522b\u624b\u5377'},
+{phase:1,day:14,icon:'\ud83d\udca8',t:'\u7535\u5b50\u70df\u65f6\u6bb5\u6027\u65ad\u5f00',d:'\u5b8c\u6210\u9636\u6bb52\uff0c\u66ff\u6362\u8ba1\u5212\u6267\u884c\u4e2d'},
+{phase:2,day:14,icon:'\ud83c\udf89',t:'\u5f7b\u5e95\u544a\u522b\u7535\u5b50\u70df',d:'\u5b8c\u6210\u9636\u6bb53\uff0c\u53ea\u7528\u53e3\u542b\u70df\u4e86\uff01'},
+{phase:3,day:14,icon:'\ud83d\udcaa',t:'\u53e3\u542b\u70df\u964d\u5230\u4f4e\u6d53\u5ea6',d:'6mg\u21924mg\uff0c\u4f53\u5185\u5c3c\u53e4\u4e01\u663e\u8457\u51cf\u5c11'},
+{phase:3,day:42,icon:'\u2b50',t:'\u63a5\u8fd1\u5b8c\u5168\u6212\u65ad',d:'\u53e3\u542b\u70df\u5373\u5c06\u5f52\u96f6'},
+{phase:3,day:56,icon:'\ud83d\udc51',t:'\u5c3c\u53e4\u4e01\u81ea\u7531\uff01',d:'\u5168\u90e8\u56db\u4e2a\u9636\u6bb5\u5b8c\u6210\uff0c\u4f60\u662f\u738b\u8005'}
+];
+var HEALTH_MILESTONES=[
 {mins:20,icon:'\ud83d\udc93',t:'\u5fc3\u7387\u8840\u538b\u4e0b\u964d',d:'\u5f00\u59cb\u6062\u590d\u6b63\u5e38'},
-{mins:480,icon:'\ud83e\udec1',t:'\u8840\u6c27\u6062\u590d',d:'\u8840\u6db2\u542b\u6c27\u91cf\u6062\u590d\u6b63\u5e38'},
+{mins:480,icon:'\ud83e\udec1',t:'\u8840\u6c27\u6062\u590d',d:'\u8840\u6db2\u542b\u6c27\u91cf\u6062\u590d'},
 {mins:1440,icon:'\ud83d\udca8',t:'\u4e00\u6c27\u5316\u78b3\u6392\u51fa',d:'\u4f53\u5185CO\u5b8c\u5168\u6392\u51fa'},
 {mins:2880,icon:'\ud83d\udc45',t:'\u5473\u89c9\u55c5\u89c9\u6062\u590d',d:'\u5f00\u59cb\u91cd\u65b0\u611f\u53d7\u7f8e\u98df'},
 {mins:4320,icon:'\ud83e\uddec',t:'\u5c3c\u53e4\u4e01\u4ee3\u8c22\u5b8c\u6bd5',d:'\u4f53\u5185\u5c3c\u53e4\u4e01\u5b8c\u5168\u6e05\u9664'},
 {mins:20160,icon:'\ud83c\udfc3',t:'\u80ba\u529f\u80fd\u6539\u5584',d:'\u547c\u5438\u53d8\u5f97\u66f4\u8f7b\u677e'},
-{mins:43200,icon:'\u2764\ufe0f',t:'\u8840\u6db2\u5faa\u73af\u6539\u5584',d:'\u6574\u4f53\u5faa\u73af\u7cfb\u7edf\u63d0\u5347'},
-{mins:129600,icon:'\ud83e\udec0',t:'\u80ba\u529f\u80fd\u63d0\u534730%',d:'\u663e\u8457\u7684\u80ba\u6d3b\u91cf\u589e\u52a0'},
-{mins:525600,icon:'\ud83c\udf89',t:'\u5fc3\u810f\u75c5\u98ce\u9669\u964d\u4f4e\u4e00\u534a',d:'\u91cd\u5927\u5065\u5eb7\u91cc\u7a0b\u7891\uff01'}
+{mins:43200,icon:'\u2764\ufe0f',t:'\u8840\u6db2\u5faa\u73af\u6539\u5584',d:'\u6574\u4f53\u5faa\u73af\u63d0\u5347'},
+{mins:129600,icon:'\ud83e\udec0',t:'\u80ba\u529f\u80fd\u63d0\u534730%',d:'\u663e\u8457\u80ba\u6d3b\u91cf\u589e\u52a0'},
+{mins:525600,icon:'\ud83c\udf89',t:'\u5fc3\u810f\u75c5\u98ce\u9669\u964d\u4f4e\u4e00\u534a',d:'\u91cd\u5927\u5065\u5eb7\u91cc\u7a0b\u7891'}
 ];
-var BADGE_LEVELS=[
-{days:3,icon:'\ud83e\udd49',name:'3\u5929'},{days:7,icon:'\ud83e\udd48',name:'1\u5468'},{days:14,icon:'\ud83e\udd47',name:'2\u5468'},
-{days:30,icon:'\ud83c\udf96\ufe0f',name:'1\u4e2a\u6708'},{days:60,icon:'\ud83d\udc8e',name:'2\u4e2a\u6708'},{days:90,icon:'\ud83d\udc51',name:'3\u4e2a\u6708'}
-];
+var BADGE_LEVELS=[{days:3,icon:'\ud83e\udd49',name:'3\u5929'},{days:7,icon:'\ud83e\udd48',name:'1\u5468'},{days:14,icon:'\ud83e\udd47',name:'2\u5468'},{days:30,icon:'\ud83c\udf96\ufe0f',name:'1\u4e2a\u6708'},{days:60,icon:'\ud83d\udc8e',name:'2\u4e2a\u6708'},{days:90,icon:'\ud83d\udc51',name:'3\u4e2a\u6708'}];
 var MOODS=['\ud83d\ude2b','\ud83d\ude10','\ud83d\ude0a','\ud83d\udcaa'];
-var QUOTES=[
-'\u300c\u6bcf\u4e00\u6b21\u5fcd\u4f4f\uff0c\u90fd\u662f\u5728\u4e3a\u672a\u6765\u7684\u81ea\u5df1\u6295\u7968\u300d',
-'\u300c\u4f60\u4e0d\u662f\u5728\u5931\u53bb\u4ec0\u4e48\uff0c\u800c\u662f\u5728\u593a\u56de\u81ea\u7531\u300d',
-'\u300c\u70df\u763e\u53ea\u662f\u6682\u65f6\u7684\u8bbf\u5ba2\uff0c\u4f60\u624d\u662f\u8fd9\u91cc\u7684\u4e3b\u4eba\u300d',
-'\u300c\u4eca\u5929\u4e0d\u5bb9\u6613\uff0c\u4f46\u660e\u5929\u7684\u4f60\u4f1a\u611f\u8c22\u4eca\u5929\u7684\u575a\u6301\u300d',
-'\u300c\u6bcf\u6839\u6ca1\u62bd\u7684\u70df\uff0c\u90fd\u662f\u4e00\u6b21\u5c0f\u5c0f\u7684\u80dc\u5229\u300d',
-'\u300c\u4e09\u5206\u949f\uff0c\u53ea\u9700\u8981\u4e09\u5206\u949f\uff0c\u70df\u763e\u5c31\u4f1a\u79bb\u5f00\u300d',
-'\u300c\u4f60\u7684\u80ba\u6b63\u5728\u4e00\u70b9\u4e00\u70b9\u53d8\u5e72\u51c0\u300d',
-'\u300c\u4e0d\u662f\u6212\u4e0d\u6389\uff0c\u662f\u8fd8\u6ca1\u4e0b\u5b9a\u51b3\u5fc3\u2014\u2014\u4f46\u4f60\u5df2\u7ecf\u5f00\u59cb\u4e86\u300d',
-'\u300c\u4e0e\u5176\u8bf4\u6212\u70df\u96be\uff0c\u4e0d\u5982\u8bf4\u81ea\u7531\u66f4\u503c\u5f97\u300d',
-'\u300c\u6bcf\u4e00\u5929\u90fd\u662f\u65b0\u7eaa\u5f55\uff0c\u4f60\u4ece\u672a\u8d70\u5230\u8fc7\u4eca\u5929\u8fd9\u4e48\u8fdc\u300d',
-'\u300c\u5c3c\u53e4\u4e01\u6b20\u4f60\u7684\uff0c\u4f60\u6b63\u5728\u4e00\u5929\u5929\u8ba8\u56de\u6765\u300d',
-'\u300c\u70df\u763e\u8bf4\u5b83\u9700\u8981\u4f60\uff0c\u4f46\u5176\u5b9e\u4f60\u6839\u672c\u4e0d\u9700\u8981\u5b83\u300d',
-'\u300c\u590d\u5438\u4e0d\u662f\u5931\u8d25\uff0c\u653e\u5f03\u624d\u662f\u300d',
-'\u300c\u7701\u4e0b\u7684\u4e0d\u53ea\u662f\u94b1\uff0c\u8fd8\u6709\u5341\u5e74\u5bff\u547d\u300d',
-'\u300c\u522b\u56de\u5934\u770b\uff0c\u4f60\u8981\u53bb\u7684\u65b9\u5411\u6ca1\u6709\u70df\u300d',
-'\u300c\u56f0\u96be\u7684\u8def\u8d8a\u8d70\u8d8a\u5bb9\u6613\uff0c\u5bb9\u6613\u7684\u8def\u8d8a\u8d70\u8d8a\u96be\u300d',
-'\u300c\u5f53\u70df\u763e\u6765\u6572\u95e8\uff0c\u544a\u8bc9\u5b83\u4f60\u4e0d\u5728\u5bb6\u300d',
-'\u300c\u8eab\u4f53\u6b63\u5728\u4fee\u590d\uff0c\u4f60\u53ea\u9700\u8981\u7ed9\u5b83\u65f6\u95f4\u300d',
-'\u300c\u6212\u70df\u4e0d\u662f\u60e9\u7f5a\uff0c\u662f\u7ed9\u81ea\u5df1\u6700\u597d\u7684\u793c\u7269\u300d',
-'\u300c\u4f60\u4eca\u5929\u7684\u575a\u6301\uff0c\u662f\u660e\u5929\u7684\u9a84\u50b2\u300d'
-];
-var ENCOURAGE_RESIST=[
-'\ud83d\udc9a \u592a\u68d2\u4e86\uff01\u70df\u763e3-5\u5206\u949f\u5c31\u4f1a\u8fc7\u53bb\uff0c\u4f60\u8d62\u4e86\u8fd9\u4e00\u5c40\uff01',
-'\ud83d\udc9a \u53c8\u625b\u8fc7\u4e00\u6b21\uff01\u4f60\u6bd4\u5c3c\u53e4\u4e01\u66f4\u5f3a\u5927\uff01',
-'\ud83d\udc9a \u6f02\u4eae\uff01\u6bcf\u6b21\u5fcd\u4f4f\u90fd\u5728\u91cd\u5851\u4f60\u7684\u5927\u8111\u56de\u8def\uff01',
-'\ud83d\udc9a \u6df1\u547c\u5438\uff0c\u4f60\u505a\u5230\u4e86\u3002\u8fd9\u4e00\u523b\u503c\u5f97\u88ab\u8bb0\u4f4f\u3002',
-'\ud83d\udc9a \u5c3c\u53e4\u4e01\u53d7\u4f53\u6b63\u5728\u51cf\u5c11\uff0c\u4f60\u8d8a\u6765\u8d8a\u81ea\u7531\u4e86\uff01'
-];
-var ENCOURAGE_NRT=[
-'\ud83d\udc9b \u806a\u660e\u7684\u9009\u62e9\uff01NRT\u662f\u4f60\u7684\u6212\u70df\u5de5\u5177\uff0c\u4e0d\u662f\u654c\u4eba\u3002',
-'\ud83d\udc9b \u53e3\u542b\u70df\u5e2e\u4f60\u5ea6\u8fc7\u4e86\u8fd9\u4e00\u5173\uff0c\u8ba1\u5212\u5185\u7684\u64cd\u4f5c\u3002',
-'\ud83d\udc9b \u7528\u66ff\u4ee3\u54c1\u4e0d\u4e22\u4eba\uff0c\u8fd9\u662f\u79d1\u5b66\u6212\u70df\u7684\u4e00\u90e8\u5206\u3002'
-];
-var ENCOURAGE_SLIP=[
-'\ud83e\udde1 \u8bb0\u5f55\u4e0b\u6765\u5c31\u662f\u8fdb\u6b65\u3002\u770b\u770b\u662f\u4ec0\u4e48\u89e6\u53d1\u4e86\u5b83\uff1f',
-'\ud83e\udde1 \u4e00\u6b21\u6ed1\u843d\u4e0d\u662f\u5931\u8d25\u3002\u660e\u5929\u7ee7\u7eed\uff0c\u4f60\u8fd8\u5728\u8def\u4e0a\u3002',
-'\ud83e\udde1 \u8bda\u5b9e\u9762\u5bf9\u6bd4\u5047\u88c5\u6ca1\u53d1\u751f\u66f4\u6709\u52c7\u6c14\u3002',
-'\ud83e\udde1 \u8dcc\u5012\u4e86\u5c31\u722c\u8d77\u6765\uff0c\u8fd9\u6761\u8def\u672c\u6765\u5c31\u4e0d\u662f\u76f4\u7ebf\u3002'
-];
+var QUOTES=['\u300c\u6bcf\u4e00\u6b21\u5fcd\u4f4f\uff0c\u90fd\u662f\u5728\u4e3a\u672a\u6765\u7684\u81ea\u5df1\u6295\u7968\u300d','\u300c\u4f60\u4e0d\u662f\u5728\u5931\u53bb\u4ec0\u4e48\uff0c\u800c\u662f\u5728\u593a\u56de\u81ea\u7531\u300d','\u300c\u70df\u763e\u53ea\u662f\u6682\u65f6\u7684\u8bbf\u5ba2\uff0c\u4f60\u624d\u662f\u4e3b\u4eba\u300d','\u300c\u4eca\u5929\u4e0d\u5bb9\u6613\uff0c\u4f46\u660e\u5929\u7684\u4f60\u4f1a\u611f\u8c22\u4eca\u5929\u300d','\u300c\u6bcf\u6839\u6ca1\u62bd\u7684\u70df\uff0c\u90fd\u662f\u5c0f\u5c0f\u7684\u80dc\u5229\u300d','\u300c\u4e09\u5206\u949f\uff0c\u70df\u763e\u5c31\u4f1a\u79bb\u5f00\u300d','\u300c\u4f60\u7684\u80ba\u6b63\u5728\u53d8\u5e72\u51c0\u300d','\u300c\u4e0d\u662f\u6212\u4e0d\u6389\uff0c\u4f60\u5df2\u7ecf\u5f00\u59cb\u4e86\u300d','\u300c\u81ea\u7531\u6bd4\u70df\u763e\u66f4\u503c\u5f97\u300d','\u300c\u6bcf\u5929\u90fd\u662f\u65b0\u7eaa\u5f55\u300d','\u300c\u5c3c\u53e4\u4e01\u6b20\u4f60\u7684\uff0c\u4f60\u6b63\u5728\u8ba8\u56de\u6765\u300d','\u300c\u70df\u763e\u9700\u8981\u4f60\uff0c\u4f46\u4f60\u4e0d\u9700\u8981\u5b83\u300d','\u300c\u590d\u5438\u4e0d\u662f\u5931\u8d25\uff0c\u653e\u5f03\u624d\u662f\u300d','\u300c\u7701\u7684\u4e0d\u53ea\u662f\u94b1\uff0c\u8fd8\u6709\u5341\u5e74\u5bff\u547d\u300d','\u300c\u4f60\u8981\u53bb\u7684\u65b9\u5411\u6ca1\u6709\u70df\u300d','\u300c\u56f0\u96be\u7684\u8def\u8d8a\u8d70\u8d8a\u5bb9\u6613\u300d','\u300c\u70df\u763e\u6765\u6572\u95e8\uff0c\u544a\u8bc9\u5b83\u4f60\u4e0d\u5728\u5bb6\u300d','\u300c\u8eab\u4f53\u6b63\u5728\u4fee\u590d\uff0c\u7ed9\u5b83\u65f6\u95f4\u300d','\u300c\u6212\u70df\u662f\u7ed9\u81ea\u5df1\u6700\u597d\u7684\u793c\u7269\u300d','\u300c\u4f60\u4eca\u5929\u7684\u575a\u6301\uff0c\u662f\u660e\u5929\u7684\u9a84\u50b2\u300d'];
+var ENCOURAGE_RESIST=['\ud83d\udc9a \u592a\u68d2\u4e86\uff01\u70df\u763e3-5\u5206\u949f\u5c31\u4f1a\u8fc7\u53bb\uff01','\ud83d\udc9a \u53c8\u625b\u8fc7\u4e00\u6b21\uff01\u4f60\u6bd4\u5c3c\u53e4\u4e01\u66f4\u5f3a\u5927\uff01','\ud83d\udc9a \u6bcf\u6b21\u5fcd\u4f4f\u90fd\u5728\u91cd\u5851\u5927\u8111\u56de\u8def\uff01','\ud83d\udc9a \u6df1\u547c\u5438\uff0c\u4f60\u505a\u5230\u4e86\u3002','\ud83d\udc9a \u5c3c\u53e4\u4e01\u53d7\u4f53\u6b63\u5728\u51cf\u5c11\uff01'];
+var ENCOURAGE_NRT=['\ud83d\udc9b NRT\u662f\u5de5\u5177\uff0c\u4e0d\u662f\u654c\u4eba\u3002','\ud83d\udc9b \u53e3\u542b\u70df\u5e2e\u4f60\u5ea6\u8fc7\u4e86\u8fd9\u4e00\u5173\u3002','\ud83d\udc9b \u79d1\u5b66\u6212\u70df\u7684\u4e00\u90e8\u5206\u3002'];
+var ENCOURAGE_SLIP=['\ud83e\udde1 \u8bb0\u5f55\u4e0b\u6765\u5c31\u662f\u8fdb\u6b65\u3002','\ud83e\udde1 \u4e00\u6b21\u6ed1\u843d\u4e0d\u662f\u5931\u8d25\u3002','\ud83e\udde1 \u8bda\u5b9e\u9762\u5bf9\u6bd4\u5047\u88c5\u66f4\u6709\u52c7\u6c14\u3002','\ud83e\udde1 \u8fd9\u6761\u8def\u672c\u6765\u5c31\u4e0d\u662f\u76f4\u7ebf\u3002'];
 
-var D=load();
-function load(){try{var s=localStorage.getItem(LS);if(s)return JSON.parse(s)}catch(e){}
-return{startTime:null,nrt:6,events:[],reviews:[],
-costItems:[{name:'\u624b\u5377\u70df\u8349',price:80,days:14},{name:'\u7535\u5b50\u70df\u70df\u5f39',price:25,days:5}],
-celebratedMilestones:[]};}
+/* ===== DATA ===== */
+function defaultData(){return{version:DATA_VERSION,startTime:null,nicotineFreeTime:null,nrt:6,events:[],reviews:[],costItems:[{name:'\u624b\u5377\u70df\u8349',price:80,days:14},{name:'\u7535\u5b50\u70df\u70df\u5f39',price:25,days:5}],celebratedMilestones:[],celebratedPhase:[]}}
+function load(){
+try{var s=localStorage.getItem(LS);if(s){var d=JSON.parse(s);return migrate(d)}}catch(e){}
+/* Try loading v2 data */
+try{var s2=localStorage.getItem('quit_smoking_v2');if(s2){var d2=JSON.parse(s2);return migrate(d2)}}catch(e){}
+return defaultData();
+}
+function migrate(d){
+if(!d.version)d.version=1;
+if(!d.nicotineFreeTime)d.nicotineFreeTime=null;
+if(!d.celebratedPhase)d.celebratedPhase=[];
+d.version=DATA_VERSION;
+return d;
+}
 function save(){try{localStorage.setItem(LS,JSON.stringify(D))}catch(e){}}
+var D=load();save();
+
 function dateKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function today(){return dateKey(new Date())}
 function randFrom(a){return a[Math.floor(Math.random()*a.length)]}
 function fmtTime(ts){var d=new Date(ts);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
 
+/* ===== PHASE CALC ===== */
+function getPhase(){
+if(!D.startTime)return{idx:0,dayInPhase:0,totalDay:0};
+var totalDays=Math.floor((Date.now()-D.startTime)/86400000);
+return phaseFromDay(totalDays);
+}
+function phaseFromDay(totalDays){
+var acc=0;
+for(var i=0;i<PHASES.length;i++){
+if(totalDays<acc+PHASES[i].days||i===PHASES.length-1)return{idx:i,dayInPhase:totalDays-acc,totalDay:totalDays};
+acc+=PHASES[i].days;
+}return{idx:3,dayInPhase:0,totalDay:0};
+}
+function getPhaseForDate(dk){
+if(!D.startTime)return 0;
+var startDate=new Date(D.startTime);startDate.setHours(0,0,0,0);
+var dateObj=new Date(dk+'T00:00:00');
+var daysSinceStart=Math.floor((dateObj.getTime()-startDate.getTime())/86400000);
+if(daysSinceStart<0)return 0;
+return phaseFromDay(daysSinceStart).idx;
+}
+function isDayPass(dk){
+var phaseIdx=getPhaseForDate(dk);
+var dayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
+var slips=dayEvents.filter(function(e){return e.type==='slip'});
+if(slips.length===0)return true;
+var phase=PHASES[phaseIdx];
+for(var i=0;i<slips.length;i++){
+if(slips[i].slipType&&phase.slipTypes.indexOf(slips[i].slipType)>=0)return false;
+}return true;
+}
+
+/* ===== TIMER ===== */
 var timerInterval;
 function startTimer(){if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(updateTimer,1000);updateTimer()}
 function updateTimer(){
@@ -371,43 +289,25 @@ if(!D.startTime){document.getElementById('timer').textContent='0\u5929 00:00:00'
 var diff=Date.now()-D.startTime;
 var s=Math.floor(diff/1000),m=Math.floor(s/60),h=Math.floor(m/60),d=Math.floor(h/24);
 document.getElementById('timer').textContent=d+'\u5929 '+String(h%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
-checkMilestones(m);
+checkHealthMilestones();
 }
 function startJourney(){
-if(D.startTime){if(!confirm('\u5df2\u7ecf\u5728\u8fdb\u884c\u4e2d\uff0c\u8981\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
-D.startTime=null;D.events=[];D.reviews=[];D.celebratedMilestones=[];}
+if(D.startTime){
+if(!confirm('\u5df2\u7ecf\u5728\u8fdb\u884c\u4e2d\u3002\u8981\u5148\u5bfc\u51fa\u5907\u4efd\u518d\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
+exportData();
+if(!confirm('\u5907\u4efd\u5df2\u4e0b\u8f7d\u3002\u786e\u5b9a\u8981\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
+D.startTime=null;D.events=[];D.reviews=[];D.celebratedMilestones=[];D.celebratedPhase=[];D.nicotineFreeTime=null;}
 D.startTime=Date.now();save();render();
 }
 
-function getPhase(){
-if(!D.startTime)return{idx:0,dayInPhase:0,totalDay:0};
-var totalDays=Math.floor((Date.now()-D.startTime)/86400000);
-var acc=0;
-for(var i=0;i<PHASES.length;i++){
-if(totalDays<acc+PHASES[i].days||i===PHASES.length-1)return{idx:i,dayInPhase:totalDays-acc,totalDay:totalDays};
-acc+=PHASES[i].days;
-}
-return{idx:3,dayInPhase:0,totalDay:0};
-}
-function isDayPass(dk,phaseIdx){
-var dayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
-var slips=dayEvents.filter(function(e){return e.type==='slip'});
-if(slips.length===0)return true;
-var phase=PHASES[phaseIdx];
-for(var i=0;i<slips.length;i++){
-if(slips[i].slipType&&phase.slipTypes.indexOf(slips[i].slipType)>=0)return false;
-}
-return true;
-}
+/* ===== PHASE RENDER ===== */
 function renderPhase(){
 var p=getPhase();var ph=PHASES[p.idx];
 document.getElementById('phase-name').textContent=ph.name;
 var barHTML='';
 for(var i=0;i<4;i++){
-var fillPct=0;
-if(i<p.idx)fillPct=100;
-else if(i===p.idx)fillPct=Math.min(100,Math.round(p.dayInPhase/ph.days*100));
-barHTML+='<div class="phase-seg"><div class="fill" style="width:'+fillPct+'%"></div></div>';
+var f=0;if(i<p.idx)f=100;else if(i===p.idx)f=Math.min(100,Math.round(p.dayInPhase/ph.days*100));
+barHTML+='<div class="phase-seg"><div class="fill" style="width:'+f+'%"></div></div>';
 }
 document.getElementById('phase-bar').innerHTML=barHTML;
 document.getElementById('phase-day').textContent='\u7b2c'+(p.dayInPhase+1)+'\u5929 / '+ph.days+'\u5929';
@@ -415,393 +315,343 @@ var remain=Math.max(0,ph.days-p.dayInPhase);
 document.getElementById('phase-remain').textContent=remain>0?'\u5269\u4f59'+remain+'\u5929':'\u5373\u5c06\u8fdb\u5165\u4e0b\u4e00\u9636\u6bb5';
 document.getElementById('phase-goal-text').textContent=ph.goal;
 var dk=today();
-var todayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
-var resists=todayEvents.filter(function(e){return e.type==='resist'}).length;
-var nrts=todayEvents.filter(function(e){return e.type==='nrt'}).length;
-var slips=todayEvents.filter(function(e){return e.type==='slip'});
+var todayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
+var resists=todayEv.filter(function(e){return e.type==='resist'}).length;
+var nrts=todayEv.filter(function(e){return e.type==='nrt'}).length;
+var slips=todayEv.filter(function(e){return e.type==='slip'});
 var badSlips=slips.filter(function(s){return s.slipType&&ph.slipTypes.indexOf(s.slipType)>=0}).length;
-var resultHTML='';
-if(todayEvents.length>0){
-if(badSlips===0)resultHTML='<span style="color:var(--green)">\u2705 \u4eca\u65e5\u8fbe\u6807\uff01</span> \u5fcd\u4f4f'+resists+'\u6b21 \u00b7 \u66ff\u4ee3'+nrts+'\u6b21';
-else resultHTML='<span style="color:var(--orange)">\u26a0\ufe0f \u4eca\u65e5\u6709'+badSlips+'\u6b21\u6ed1\u843d</span> \u4f46\u5fcd\u4f4f\u4e86'+resists+'\u6b21\uff0c\u7ee7\u7eed\u52a0\u6cb9';
+var todayPuffs=slips.reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var pStr=todayPuffs>0?' \u00b7 ~'+Math.round(todayPuffs)+'\u53e3':'';
+var r='';
+if(todayEv.length>0){
+if(badSlips===0)r='<span style="color:var(--green)">\u2705 \u4eca\u65e5\u8fbe\u6807\uff01</span> \u5fcd\u4f4f'+resists+'\u6b21 \u00b7 \u66ff\u4ee3'+nrts+'\u6b21';
+else r='<span style="color:var(--orange)">\u26a0\ufe0f '+badSlips+'\u6b21\u6ed1\u843d'+pStr+'</span> \u5fcd\u4f4f\u4e86'+resists+'\u6b21';
 }
-document.getElementById('phase-result').innerHTML=resultHTML;
+document.getElementById('phase-result').innerHTML=r;
+/* Auto-detect nicotine free */
+if(p.idx===3&&D.nrt===0&&!D.nicotineFreeTime){D.nicotineFreeTime=Date.now();save()}
 }
 
-var pendingEvent=null;
-var selectedTriggers=[];
-var selectedSlipType=null;
-var selectedNrt=6;
-
+/* ===== EVENT LOGGING ===== */
+var pendingEvent=null,selectedTriggers=[],selectedSlipType=null,selectedPuffs=null,selectedNrt=6;
 function logEvent(type){
-if(!D.startTime){alert('\u8bf7\u5148\u70b9\u51fb\u300c\u5f00\u59cb\u6212\u70df\u4e4b\u65c5\u300d');return}
-pendingEvent={type:type,time:Date.now()};
-selectedTriggers=[];selectedSlipType=null;
+if(!D.startTime){alert('\u8bf7\u5148\u5f00\u59cb\u6212\u70df\u4e4b\u65c5');return}
+pendingEvent={type:type,time:Date.now()};selectedTriggers=[];selectedSlipType=null;selectedPuffs=null;
 var titles={resist:'\u270a \u5fcd\u4f4f\u4e86\uff01',nrt:'\ud83d\udc8a \u7528\u4e86\u66ff\u4ee3',slip:'\ud83d\udeb0 \u8bb0\u5f55\u4e00\u4e0b'};
-var subs={resist:'\u5f88\u68d2\uff0c\u8bb0\u5f55\u4e00\u4e0b\u662f\u4ec0\u4e48\u89e6\u53d1\u4e86\u70df\u763e',nrt:'\u6ca1\u95ee\u9898\uff0c\u8fd9\u662f\u8ba1\u5212\u5185\u7684',slip:'\u8bda\u5b9e\u8bb0\u5f55\u662f\u6700\u5927\u7684\u52c7\u6c14'};
+var subs={resist:'\u5f88\u68d2\uff0c\u8bb0\u5f55\u89e6\u53d1\u539f\u56e0',nrt:'\u8ba1\u5212\u5185\u7684\u64cd\u4f5c',slip:'\u8bda\u5b9e\u8bb0\u5f55\u662f\u6700\u5927\u7684\u52c7\u6c14'};
 document.getElementById('ts-title').textContent=titles[type];
 document.getElementById('ts-sub').textContent=subs[type];
-document.getElementById('trigger-tags').innerHTML=TRIGGERS.map(function(t){
-return '<div class="tag" onclick="toggleTrigger(this,\''+t+'\')">'+t+'</div>';
-}).join('');
+document.getElementById('trigger-tags').innerHTML=TRIGGERS.map(function(t){return '<div class="tag" onclick="toggleTrigger(this,\''+t+'\')">'+t+'</div>'}).join('');
 var nrtSec=document.getElementById('ts-nrt');
-if(type==='nrt'){
-nrtSec.classList.remove('hidden');
-document.getElementById('ts-nrt-row').innerHTML=[6,4,2,0].map(function(v){
-return '<div class="nrt-btn '+(D.nrt===v?'sel':'')+'" onclick="pickNrt(this,'+v+')">'+v+'mg</div>';
-}).join('');
-selectedNrt=D.nrt;
-}else{nrtSec.classList.add('hidden')}
+if(type==='nrt'){nrtSec.classList.remove('hidden');document.getElementById('ts-nrt-row').innerHTML=[6,4,2,0].map(function(v){return '<div class="nrt-btn '+(D.nrt===v?'sel':'')+'" onclick="pickNrt(this,'+v+')">'+v+'mg</div>'}).join('');selectedNrt=D.nrt}else{nrtSec.classList.add('hidden')}
 var slipSec=document.getElementById('ts-slip-type');
+var puffsSec=document.getElementById('ts-puffs');
 if(type==='slip'){
-slipSec.classList.remove('hidden');
-document.getElementById('slip-types').innerHTML=SLIP_TYPES.map(function(s){
-return '<div class="tag" onclick="pickSlipType(this,\''+s.id+'\')">'+s.label+'</div>';
-}).join('');
-}else{slipSec.classList.add('hidden')}
+slipSec.classList.remove('hidden');puffsSec.classList.remove('hidden');
+document.getElementById('slip-types').innerHTML=SLIP_TYPES.map(function(s){return '<div class="tag" onclick="pickSlipType(this,\''+s.id+'\')">'+s.label+'</div>'}).join('');
+document.getElementById('puffs-options').innerHTML=PUFFS_OPTIONS.map(function(p){return '<div class="tag" onclick="pickPuffs(this,'+p.id+')">'+p.label+'</div>'}).join('');
+}else{slipSec.classList.add('hidden');puffsSec.classList.add('hidden')}
 openTagSheet();
 }
-function toggleTrigger(el,t){
-el.classList.toggle('sel');
-var idx=selectedTriggers.indexOf(t);
-if(idx>=0)selectedTriggers.splice(idx,1);else selectedTriggers.push(t);
-}
-function pickSlipType(el,id){
-document.querySelectorAll('#slip-types .tag').forEach(function(t){t.classList.remove('sel')});
-el.classList.add('sel');selectedSlipType=id;
-}
-function pickNrt(el,v){
-document.querySelectorAll('#ts-nrt-row .nrt-btn').forEach(function(b){b.classList.remove('sel')});
-el.classList.add('sel');selectedNrt=v;
-}
+function toggleTrigger(el,t){el.classList.toggle('sel');var i=selectedTriggers.indexOf(t);if(i>=0)selectedTriggers.splice(i,1);else selectedTriggers.push(t)}
+function pickSlipType(el,id){document.querySelectorAll('#slip-types .tag').forEach(function(t){t.classList.remove('sel')});el.classList.add('sel');selectedSlipType=id}
+function pickPuffs(el,id){document.querySelectorAll('#puffs-options .tag').forEach(function(t){t.classList.remove('sel')});el.classList.add('sel');selectedPuffs=id}
+function pickNrt(el,v){document.querySelectorAll('#ts-nrt-row .nrt-btn').forEach(function(b){b.classList.remove('sel')});el.classList.add('sel');selectedNrt=v}
 function confirmEvent(){
 if(!pendingEvent)return;
 var ev={type:pendingEvent.type,time:pendingEvent.time,triggers:selectedTriggers.slice()};
 if(pendingEvent.type==='slip'&&selectedSlipType)ev.slipType=selectedSlipType;
+if(pendingEvent.type==='slip'&&selectedPuffs){for(var i=0;i<PUFFS_OPTIONS.length;i++){if(PUFFS_OPTIONS[i].id===selectedPuffs){ev.puffsId=PUFFS_OPTIONS[i].id;ev.puffsLabel=PUFFS_OPTIONS[i].label;ev.puffsVal=PUFFS_OPTIONS[i].val;break}}}
 if(pendingEvent.type==='nrt')ev.nrtMg=selectedNrt;
 D.events.push(ev);
-if(pendingEvent.type==='nrt')D.nrt=selectedNrt;
+if(pendingEvent.type==='nrt'){D.nrt=selectedNrt;if(selectedNrt>0)D.nicotineFreeTime=null}
+if(pendingEvent.type==='slip')D.nicotineFreeTime=null;
 save();closeTagSheet();
-var msg;
-if(ev.type==='resist')msg=randFrom(ENCOURAGE_RESIST);
-else if(ev.type==='nrt')msg=randFrom(ENCOURAGE_NRT);
-else msg=randFrom(ENCOURAGE_SLIP);
-showToast(msg);
+showToast(ev.type==='resist'?randFrom(ENCOURAGE_RESIST):ev.type==='nrt'?randFrom(ENCOURAGE_NRT):randFrom(ENCOURAGE_SLIP));
 if(ev.type==='resist')showConfetti();
 render();pendingEvent=null;
 }
-function openTagSheet(){
-document.getElementById('tag-bg').classList.add('open');
-document.getElementById('tag-sheet').classList.add('open');
-}
-function closeTagSheet(){
-document.getElementById('tag-bg').classList.remove('open');
-document.getElementById('tag-sheet').classList.remove('open');
-pendingEvent=null;
-}
+function openTagSheet(){document.getElementById('tag-bg').classList.add('open');document.getElementById('tag-sheet').classList.add('open')}
+function closeTagSheet(){document.getElementById('tag-bg').classList.remove('open');document.getElementById('tag-sheet').classList.remove('open');pendingEvent=null}
 
+/* ===== TOAST ===== */
 var toastTimer;
-function showToast(msg){
-var el=document.getElementById('toast');
-el.textContent=msg;el.classList.add('show');
-clearTimeout(toastTimer);
-toastTimer=setTimeout(function(){el.classList.remove('show')},4000);
-}
+function showToast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show')},4000)}
 
+/* ===== REVIEW ===== */
 var selMoodVal=-1;
-function selMood(v){
-selMoodVal=v;
-document.querySelectorAll('.mood-btn').forEach(function(el){el.classList.toggle('sel',parseInt(el.dataset.mood)===v)});
-}
+function selMood(v){selMoodVal=v;document.querySelectorAll('.mood-btn').forEach(function(el){el.classList.toggle('sel',parseInt(el.dataset.mood)===v)})}
 function saveReview(){
 if(!D.startTime){alert('\u8bf7\u5148\u5f00\u59cb');return}
-var dk=today();
-var existing=-1;
+var dk=today(),existing=-1;
 for(var i=0;i<D.reviews.length;i++){if(D.reviews[i].date===dk){existing=i;break}}
-var review={date:dk,time:Date.now(),mood:selMoodVal,note:document.getElementById('note-input').value.trim()};
-if(existing>=0)D.reviews[existing]=review;else D.reviews.push(review);
+var rev={date:dk,time:Date.now(),mood:selMoodVal,note:document.getElementById('note-input').value.trim()};
+if(existing>=0)D.reviews[existing]=rev;else D.reviews.push(rev);
 save();selMoodVal=-1;document.getElementById('note-input').value='';
 document.querySelectorAll('.mood-btn').forEach(function(el){el.classList.remove('sel')});
 showToast('\ud83d\udc9c \u56de\u987e\u5df2\u4fdd\u5b58');render();
 }
 
+/* ===== TIMELINE ===== */
 function renderTimeline(){
-var el=document.getElementById('today-timeline');
-var dk=today();
-var todayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk}).sort(function(a,b){return b.time-a.time});
-var todayReview=null;
-for(var i=0;i<D.reviews.length;i++){if(D.reviews[i].date===dk){todayReview=D.reviews[i];break}}
-if(todayEvents.length===0&&!todayReview){el.innerHTML='<div class="ev-empty">\u4eca\u5929\u8fd8\u6ca1\u6709\u8bb0\u5f55\uff0c\u52a0\u6cb9\uff01</div>';return}
-var html='';
-if(todayReview){
-html+='<div class="ev-item"><div class="ev-icon">\ud83c\udf19</div><div class="ev-body"><div class="ev-time">'+fmtTime(todayReview.time)+'</div><div class="ev-text">\u56de\u987e '+(todayReview.mood>=0?MOODS[todayReview.mood]:'')+' '+(todayReview.note||'')+'</div></div></div>';
-}
-var icons={resist:'\u270a',nrt:'\ud83d\udc8a',slip:'\ud83d\udeb0'};
-var labels={resist:'\u5fcd\u4f4f\u4e86',nrt:'\u7528\u4e86\u66ff\u4ee3',slip:'\u6ca1\u5fcd\u4f4f'};
-var colors={resist:'var(--green)',nrt:'var(--yellow)',slip:'var(--red)'};
-for(var i=0;i<todayEvents.length;i++){
-var ev=todayEvents[i];
-var extra='';
-if(ev.type==='slip'&&ev.slipType){for(var j=0;j<SLIP_TYPES.length;j++){if(SLIP_TYPES[j].id===ev.slipType){extra=SLIP_TYPES[j].label;break}}}
-if(ev.type==='nrt'&&ev.nrtMg!==undefined)extra=ev.nrtMg+'mg';
-html+='<div class="ev-item"><div class="ev-icon">'+icons[ev.type]+'</div><div class="ev-body"><div class="ev-time">'+fmtTime(ev.time)+'</div><div class="ev-text" style="color:'+colors[ev.type]+'">'+labels[ev.type]+(extra?' \u00b7 '+extra:'')+'</div>'+(ev.triggers&&ev.triggers.length?'<div class="ev-tags">\u89e6\u53d1\uff1a'+ev.triggers.join(' \u00b7 ')+'</div>':'')+'</div></div>';
-}
-el.innerHTML=html;
+var el=document.getElementById('today-timeline'),dk=today();
+var todayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk}).sort(function(a,b){return b.time-a.time});
+var rev=null;for(var i=0;i<D.reviews.length;i++){if(D.reviews[i].date===dk){rev=D.reviews[i];break}}
+if(!todayEv.length&&!rev){el.innerHTML='<div class="ev-empty">\u4eca\u5929\u8fd8\u6ca1\u6709\u8bb0\u5f55\uff0c\u52a0\u6cb9\uff01</div>';return}
+var h='';
+if(rev)h+='<div class="ev-item"><div class="ev-icon">\ud83c\udf19</div><div class="ev-body"><div class="ev-time">'+fmtTime(rev.time)+'</div><div class="ev-text">\u56de\u987e '+(rev.mood>=0?MOODS[rev.mood]:'')+' '+(rev.note||'')+'</div></div></div>';
+var icons={resist:'\u270a',nrt:'\ud83d\udc8a',slip:'\ud83d\udeb0'},labels={resist:'\u5fcd\u4f4f\u4e86',nrt:'\u7528\u4e86\u66ff\u4ee3',slip:'\u6ca1\u5fcd\u4f4f'},colors={resist:'var(--green)',nrt:'var(--yellow)',slip:'var(--red)'};
+for(var i=0;i<todayEv.length;i++){var ev=todayEv[i],extra='';
+if(ev.slipType){for(var j=0;j<SLIP_TYPES.length;j++){if(SLIP_TYPES[j].id===ev.slipType){extra=SLIP_TYPES[j].label;break}}}
+if(ev.puffsLabel)extra+=(extra?' \u00b7 ':'')+ev.puffsLabel;
+if(ev.nrtMg!==undefined)extra=ev.nrtMg+'mg';
+h+='<div class="ev-item"><div class="ev-icon">'+icons[ev.type]+'</div><div class="ev-body"><div class="ev-time">'+fmtTime(ev.time)+'</div><div class="ev-text" style="color:'+colors[ev.type]+'">'+labels[ev.type]+(extra?' \u00b7 '+extra:'')+'</div>'+(ev.triggers&&ev.triggers.length?'<div class="ev-tags">\u89e6\u53d1\uff1a'+ev.triggers.join(' \u00b7 ')+'</div>':'')+'</div></div>'}
+el.innerHTML=h;
 }
 
+/* ===== ROLLING 21-DAY GRID ===== */
 function renderGrid(){
 var el=document.getElementById('grid21');
 if(!D.startTime){el.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:13px;padding:20px">\u5f00\u59cb\u540e\u663e\u793a</div>';return}
 var startDate=new Date(D.startTime);startDate.setHours(0,0,0,0);
-var p=getPhase();var html='';
-for(var i=0;i<21;i++){
+var todayDate=new Date();todayDate.setHours(0,0,0,0);
+var daysSinceStart=Math.floor((todayDate-startDate)/86400000);
+/* Show last 20 days + today = 21 cells, or from start if <21 days */
+var gridStart=daysSinceStart>=20?daysSinceStart-20:0;
+var html='';
+for(var i=gridStart;i<=gridStart+20;i++){
 var d=new Date(startDate.getTime()+i*86400000);
-var dk=dateKey(d);var isFuture=d>new Date();var isToday=dk===today();
-var dayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
-var review=null;for(var j=0;j<D.reviews.length;j++){if(D.reviews[j].date===dk){review=D.reviews[j];break}}
-if(isFuture&&!isToday){html+='<div class="cell"><div class="day">'+(i+1)+'</div>\u00b7</div>'}
-else{
-var pass=isDayPass(dk,p.idx);var hasEvents=dayEvents.length>0;
-var cls=hasEvents?(pass?'pass':'fail'):'';
+var dk=dateKey(d);var isFuture=d>todayDate;var isToday=dk===today();
+var dayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
+var rev=null;for(var j=0;j<D.reviews.length;j++){if(D.reviews[j].date===dk){rev=D.reviews[j];break}}
+var dayNum=i+1;
+if(isFuture&&!isToday){html+='<div class="cell"><div class="day">'+dayNum+'</div>\u00b7</div>'}
+else{var pass=isDayPass(dk);var hasEv=dayEv.length>0;
+var cls=hasEv?(pass?'pass':'fail'):'';
 var content='';
-if(review&&review.mood>=0)content=MOODS[review.mood];
-else if(hasEvents)content=pass?'\u2705':'\u26a0\ufe0f';
-else if(isToday)content='\ud83d\udccd';
-else content='\u00b7';
-html+='<div class="cell '+cls+'"><div class="day">'+(i+1)+'</div>'+content+'</div>';
-}
-}
+if(rev&&rev.mood>=0)content=MOODS[rev.mood];
+else if(hasEv)content=pass?'\u2705':'\u26a0\ufe0f';
+else if(isToday)content='\ud83d\udccd';else content='\u00b7';
+html+='<div class="cell '+cls+'"><div class="day">'+dayNum+'</div>'+content+'</div>';
+}}
 el.innerHTML=html;
 }
 
-function checkMilestones(elapsedMins){
-if(!D.startTime)return;
-for(var i=0;i<MILESTONES.length;i++){
-var ms=MILESTONES[i];
-if(elapsedMins>=ms.mins&&D.celebratedMilestones.indexOf(ms.mins)<0){
+/* ===== MILESTONES ===== */
+function checkHealthMilestones(){
+if(!D.nicotineFreeTime)return;
+var mins=(Date.now()-D.nicotineFreeTime)/60000;
+for(var i=0;i<HEALTH_MILESTONES.length;i++){
+var ms=HEALTH_MILESTONES[i];
+if(mins>=ms.mins&&D.celebratedMilestones.indexOf(ms.mins)<0){
 D.celebratedMilestones.push(ms.mins);save();
 showCelebration(ms.icon,ms.t,ms.d);break;
+}}
 }
+function renderPhaseMilestones(){
+var el=document.getElementById('phase-milestones');
+if(!D.startTime){el.innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px">\u5f00\u59cb\u540e\u89e3\u9501</div>';return}
+var p=getPhase();
+el.innerHTML=PHASE_MILESTONES.map(function(ms){
+var reached=(p.idx>ms.phase)||(p.idx===ms.phase&&p.dayInPhase>=ms.day);
+var isNext=false;
+if(!reached){
+var allPrev=PHASE_MILESTONES.filter(function(m){return(p.idx>m.phase)||(p.idx===m.phase&&p.dayInPhase>=m.day)});
+var unreached=PHASE_MILESTONES.filter(function(m){return!((p.idx>m.phase)||(p.idx===m.phase&&p.dayInPhase>=m.day))});
+if(unreached.length>0&&unreached[0]===ms)isNext=true;
 }
+return '<div class="milestone '+(reached?'done':'')+' '+(isNext?'next':'')+'"><div class="icon">'+ms.icon+'</div><div class="info"><div class="t">'+ms.t+' '+(reached?'\u2713':isNext?'\u2b05 \u4e0b\u4e00\u4e2a':'')+'</div><div class="d">'+ms.d+'</div></div></div>';
+}).join('');
 }
-function showCelebration(emoji,msg,sub){
-document.getElementById('celeb-emoji').textContent=emoji;
-document.getElementById('celeb-msg').textContent=msg;
-document.getElementById('celeb-sub').textContent=sub;
-document.getElementById('celebrate').classList.remove('hidden');
-showConfetti();
+function renderHealthMilestones(){
+var el=document.getElementById('health-milestones');
+if(!D.nicotineFreeTime){
+el.innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px">\ud83d\udd12 \u8fdb\u5165\u9636\u6bb54\u5e76\u5c06\u53e3\u542b\u70df\u964d\u52300mg\u540e\u5f00\u59cb\u8ba1\u65f6<br><span style="font-size:11px">\u8fd9\u4e9b\u91cc\u7a0b\u7891\u57fa\u4e8e\u5b8c\u5168\u505c\u6b62\u5c3c\u53e4\u4e01\u6444\u5165\u7684\u533b\u5b66\u7814\u7a76</span></div>';
+return;
 }
-function closeCelebrate(){document.getElementById('celebrate').classList.add('hidden')}
-function showConfetti(){
-var emojis=['\ud83c\udf89','\ud83c\udf8a','\u2b50','\u2728','\ud83d\udc9a','\ud83c\udf1f'];
-for(var i=0;i<15;i++){
-var el=document.createElement('div');el.className='confetti';
-el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-el.style.left=Math.random()*100+'vw';
-el.style.animationDelay=Math.random()*1.5+'s';
-el.style.animationDuration=(2+Math.random()*2)+'s';
-document.body.appendChild(el);
-(function(e){setTimeout(function(){e.remove()},5000)})(el);
-}
-}
-
-function renderMilestones(){
-if(!D.startTime){document.getElementById('milestones').innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px">\u5f00\u59cb\u540e\u89e3\u9501</div>';return}
-var elapsedMins=(Date.now()-D.startTime)/60000;var foundNext=false;
-document.getElementById('milestones').innerHTML=MILESTONES.map(function(ms){
-var done=elapsedMins>=ms.mins;var isNext=!done&&!foundNext;
-if(isNext)foundNext=true;
+var mins=(Date.now()-D.nicotineFreeTime)/60000;var foundNext=false;
+el.innerHTML=HEALTH_MILESTONES.map(function(ms){
+var done=mins>=ms.mins;var isNext=!done&&!foundNext;if(isNext)foundNext=true;
 return '<div class="milestone '+(done?'done':'')+' '+(isNext?'next':'')+'"><div class="icon">'+ms.icon+'</div><div class="info"><div class="t">'+ms.t+' '+(done?'\u2713':isNext?'\u2b05 \u4e0b\u4e00\u4e2a':'')+'</div><div class="d">'+ms.d+'</div></div></div>';
 }).join('');
 }
+function showCelebration(emoji,msg,sub){document.getElementById('celeb-emoji').textContent=emoji;document.getElementById('celeb-msg').textContent=msg;document.getElementById('celeb-sub').textContent=sub;document.getElementById('celebrate').classList.remove('hidden');showConfetti()}
+function closeCelebrate(){document.getElementById('celebrate').classList.add('hidden')}
+function showConfetti(){var e=['\ud83c\udf89','\ud83c\udf8a','\u2b50','\u2728','\ud83d\udc9a','\ud83c\udf1f'];for(var i=0;i<15;i++){var el=document.createElement('div');el.className='confetti';el.textContent=e[Math.floor(Math.random()*e.length)];el.style.left=Math.random()*100+'vw';el.style.animationDelay=Math.random()*1.5+'s';el.style.animationDuration=(2+Math.random()*2)+'s';document.body.appendChild(el);(function(x){setTimeout(function(){x.remove()},5000)})(el)}}
 
+/* ===== BADGES ===== */
 function renderBadges(){
 var streak=getConsecutivePassDays();
-document.getElementById('badges').innerHTML=BADGE_LEVELS.map(function(b){
-return '<div class="badge '+(streak>=b.days?'earned':'')+'">'+b.icon+' '+b.name+(streak>=b.days?' \u2713':'')+'</div>';
-}).join('');
+document.getElementById('badges').innerHTML=BADGE_LEVELS.map(function(b){return '<div class="badge '+(streak>=b.days?'earned':'')+'">'+b.icon+' '+b.name+(streak>=b.days?' \u2713':'')+'</div>'}).join('');
 }
 function getConsecutivePassDays(){
-if(!D.startTime)return 0;var p=getPhase();var streak=0;
+if(!D.startTime)return 0;var streak=0;
 var td=new Date();td.setHours(0,0,0,0);
 for(var i=0;i<365;i++){
 var d=new Date(td.getTime()-i*86400000);var dk=dateKey(d);
 if(d<new Date(D.startTime))break;
-var dayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
-if(i===0&&dayEvents.length===0)continue;
-if(dayEvents.length===0&&i>0)break;
-if(isDayPass(dk,p.idx))streak++;else break;
-}
-return streak;
-}
-
-function renderQuote(){
-document.getElementById('daily-quote').textContent=QUOTES[Math.floor(Date.now()/86400000)%QUOTES.length];
+var dayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
+if(i===0&&!dayEv.length)continue;
+if(!dayEv.length&&i>0)break;
+if(isDayPass(dk))streak++;else break;
+}return streak;
 }
 
+function renderQuote(){document.getElementById('daily-quote').textContent=QUOTES[Math.floor(Date.now()/86400000)%QUOTES.length]}
+
+/* ===== TABS ===== */
 function switchTab(t){
 document.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('active',el.dataset.tab===t)});
 ['main','stats','cost','hist'].forEach(function(id){document.getElementById('tab-'+id).classList.toggle('hidden',id!==t)});
 if(t==='stats')renderStats();if(t==='cost')renderCost();if(t==='hist')renderHistory();
 }
 
+/* ===== STATS ===== */
 function renderStats(){
-var now=new Date();
-var weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
+var now=new Date();var weekStart=new Date(now);weekStart.setDate(now.getDate()-(now.getDay()||7)+1);weekStart.setHours(0,0,0,0);
 var lastWeekStart=new Date(weekStart.getTime()-7*86400000);
 var thisWeek=D.events.filter(function(e){return e.time>=weekStart.getTime()});
 var lastWeek=D.events.filter(function(e){return e.time>=lastWeekStart.getTime()&&e.time<weekStart.getTime()});
-var twResist=thisWeek.filter(function(e){return e.type==='resist'}).length;
-var twSlip=thisWeek.filter(function(e){return e.type==='slip'}).length;
-var twNrt=thisWeek.filter(function(e){return e.type==='nrt'}).length;
-var twTotal=twResist+twSlip;var resistRate=twTotal>0?Math.round(twResist/twTotal*100):0;
+var twR=thisWeek.filter(function(e){return e.type==='resist'}).length;
+var twS=thisWeek.filter(function(e){return e.type==='slip'}).length;
+var twN=thisWeek.filter(function(e){return e.type==='nrt'}).length;
+var twT=twR+twS;var rRate=twT>0?Math.round(twR/twT*100):0;
+var twP=thisWeek.reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var lwP=lastWeek.reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var pC=lwP>0?Math.round((twP-lwP)/lwP*100):0;
 document.getElementById('weekly-stats').innerHTML=
-'<div class="stat-box"><div class="num" style="color:var(--green)">'+twResist+'</div><div class="lbl">\u5fcd\u4f4f</div></div>'+
-'<div class="stat-box"><div class="num" style="color:var(--yellow)">'+twNrt+'</div><div class="lbl">\u66ff\u4ee3</div></div>'+
-'<div class="stat-box"><div class="num" style="color:var(--red)">'+twSlip+'</div><div class="lbl">\u6ed1\u843d</div></div>'+
-'<div class="stat-box"><div class="num" style="color:'+(resistRate>=60?'var(--green)':'var(--orange)')+'">'+resistRate+'%</div><div class="lbl">\u5fcd\u4f4f\u7387</div></div>';
-
-var wChart=document.getElementById('weekly-battle-chart');
-var dayNames=['\u65e5','\u4e00','\u4e8c','\u4e09','\u56db','\u4e94','\u516d'];
-var maxW=1;var wData=[];
-for(var i=0;i<7;i++){
-var d=new Date(weekStart.getTime()+i*86400000);var dk=dateKey(d);
+'<div class="stat-box"><div class="num" style="color:var(--green)">'+twR+'</div><div class="lbl">\u5fcd\u4f4f</div></div>'+
+'<div class="stat-box"><div class="num" style="color:var(--yellow)">'+twN+'</div><div class="lbl">\u66ff\u4ee3</div></div>'+
+'<div class="stat-box"><div class="num" style="color:var(--red)">'+twS+'</div><div class="lbl">\u6ed1\u843d</div></div>'+
+'<div class="stat-box"><div class="num" style="color:'+(rRate>=60?'var(--green)':'var(--orange)')+'">'+rRate+'%</div><div class="lbl">\u5fcd\u4f4f\u7387</div></div>'+
+'<div class="stat-box"><div class="num" style="color:var(--red)">~'+Math.round(twP)+'</div><div class="lbl">\u53e3\u6570 '+(pC<=0?'<span style="color:var(--green)">'+pC+'%</span>':'<span style="color:var(--red)">+'+pC+'%</span>')+'</div></div>';
+var dayNames=['\u4e00','\u4e8c','\u4e09','\u56db','\u4e94','\u516d','\u65e5'];
+/* Battle chart */
+var wC=document.getElementById('weekly-battle-chart');var maxW=1,wD=[];
+for(var i=0;i<7;i++){var d=new Date(weekStart.getTime()+i*86400000);var dk=dateKey(d);
 var r=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.type==='resist'}).length;
 var s=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.type==='slip'}).length;
-wData.push({r:r,s:s});if(r+s>maxW)maxW=r+s;
-}
-wChart.innerHTML=wData.map(function(v,i){
-var rh=v.r/maxW*70;var sh=v.s/maxW*70;
-return '<div class="bar-wrap"><div class="bar-val">'+(v.r+v.s||'')+'</div><div style="width:100%;display:flex;flex-direction:column;align-items:stretch"><div class="bar" style="height:'+sh+'px;background:var(--red);border-radius:3px 3px 0 0"></div><div class="bar" style="height:'+rh+'px;background:var(--green);border-radius:0"></div></div><div class="bar-label">'+dayNames[i]+'</div></div>';
-}).join('');
-
-var hChart=document.getElementById('hourly-chart');
-var hourData=new Array(24).fill(0);
-D.events.forEach(function(e){if(e.type!=='nrt')hourData[new Date(e.time).getHours()]++});
-var maxH=Math.max.apply(null,[1].concat(hourData));
-var peakHour=-1,peakVal=0;hourData.forEach(function(v,i){if(v>peakVal){peakVal=v;peakHour=i}});
-hChart.innerHTML=hourData.map(function(v,i){
-var h=v/maxH*70;var isPeak=i===peakHour&&v>0;
-return '<div class="bar-wrap"><div class="bar-val">'+(v||'')+'</div><div class="bar" style="height:'+h+'px;background:'+(isPeak?'var(--yellow)':'var(--red)')+'"></div><div class="bar-label">'+(i%4===0?i+'\u65f6':'')+'</div></div>';
-}).join('');
-
-var triggerCount={};
-D.events.forEach(function(e){if(e.triggers)e.triggers.forEach(function(t){triggerCount[t]=(triggerCount[t]||0)+1})});
-var sorted=Object.entries(triggerCount).sort(function(a,b){return b[1]-a[1]}).slice(0,6);
-var trigEl=document.getElementById('trigger-stats');
-if(sorted.length===0){trigEl.innerHTML='<div style="color:var(--text3);font-size:13px">\u6682\u65e0\u6570\u636e</div>'}
-else{
-var maxT=sorted[0][1];
-trigEl.innerHTML=sorted.map(function(item){
-var pct=Math.round(item[1]/maxT*100);
-return '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px"><span>'+item[0]+'</span><span style="color:var(--text3)">'+item[1]+'\u6b21</span></div><div style="height:6px;border-radius:3px;background:var(--border)"><div style="width:'+pct+'%;height:100%;border-radius:3px;background:var(--orange)"></div></div></div>';
-}).join('');
-}
-
-var mChart=document.getElementById('mood-chart');
-var recent=D.reviews.slice(-14).filter(function(r){return r.mood>=0});
-if(!recent.length){mChart.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u56de\u987e</div>'}
-else{
-var mColors=['var(--red)','var(--text3)','var(--blue)','var(--green)'];
-mChart.innerHTML=recent.map(function(r){
-var h=(r.mood+1)/4*60;
-return '<div class="bar-wrap"><div class="bar-val">'+MOODS[r.mood]+'</div><div class="bar" style="height:'+h+'px;background:'+mColors[r.mood]+'"></div><div class="bar-label">'+r.date.slice(5)+'</div></div>';
-}).join('');
-}
-
-var rrChart=document.getElementById('resist-rate-chart');
-var last7=[];
-for(var i=6;i>=0;i--){
-var d=new Date(Date.now()-i*86400000);var dk=dateKey(d);
-var dayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
-var r=dayEv.filter(function(e){return e.type==='resist'}).length;
-var s=dayEv.filter(function(e){return e.type==='slip'}).length;
-var total=r+s;
-last7.push({rate:total>0?Math.round(r/total*100):null,label:dk.slice(5)});
-}
-var hasData=last7.some(function(d){return d.rate!==null});
-if(!hasData){rrChart.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u6570\u636e</div>'}
-else{
-rrChart.innerHTML=last7.map(function(d){
-if(d.rate===null)return '<div class="bar-wrap"><div class="bar-val"></div><div class="bar" style="height:2px;background:var(--border)"></div><div class="bar-label">'+d.label+'</div></div>';
+wD.push({r:r,s:s});if(r+s>maxW)maxW=r+s}
+wC.innerHTML=wD.map(function(v,i){var rh=v.r/maxW*70,sh=v.s/maxW*70;
+return '<div class="bar-wrap"><div class="bar-val">'+(v.r+v.s||'')+'</div><div style="width:100%;display:flex;flex-direction:column"><div class="bar" style="height:'+sh+'px;background:var(--red);border-radius:3px 3px 0 0"></div><div class="bar" style="height:'+rh+'px;background:var(--green)"></div></div><div class="bar-label">'+dayNames[i]+'</div></div>'}).join('');
+/* Puffs chart */
+var pC2=document.getElementById('puffs-chart');var pD=[],maxPf=1;
+for(var i=0;i<7;i++){var d=new Date(weekStart.getTime()+i*86400000);var dk=dateKey(d);
+var dp=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.type==='slip'}).reduce(function(s,e){return s+(e.puffsVal||0)},0);
+pD.push(dp);if(dp>maxPf)maxPf=dp}
+var hP=pD.some(function(v){return v>0});
+if(!hP){pC2.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u6570\u636e</div>'}
+else{pC2.innerHTML=pD.map(function(v,i){var h=v/maxPf*70;return '<div class="bar-wrap"><div class="bar-val">'+(v?'~'+Math.round(v):'')+'</div><div class="bar" style="height:'+h+'px;background:var(--orange)"></div><div class="bar-label">'+dayNames[i]+'</div></div>'}).join('')}
+/* Hourly - labels every 6h */
+var hC=document.getElementById('hourly-chart');var hD=new Array(24).fill(0);
+D.events.forEach(function(e){if(e.type!=='nrt')hD[new Date(e.time).getHours()]++});
+var maxH=Math.max.apply(null,[1].concat(hD));
+var peak=-1,peakV=0;hD.forEach(function(v,i){if(v>peakV){peakV=v;peak=i}});
+hC.innerHTML=hD.map(function(v,i){var h=v/maxH*70;var isP=i===peak&&v>0;
+return '<div class="bar-wrap"><div class="bar-val">'+(v||'')+'</div><div class="bar" style="height:'+h+'px;background:'+(isP?'var(--yellow)':'var(--red)')+'"></div><div class="bar-label">'+(i%6===0?i+'\u65f6':'')+'</div></div>'}).join('');
+/* Triggers */
+var tc={};D.events.forEach(function(e){if(e.triggers)e.triggers.forEach(function(t){tc[t]=(tc[t]||0)+1})});
+var sorted=Object.entries(tc).sort(function(a,b){return b[1]-a[1]}).slice(0,6);
+var tEl=document.getElementById('trigger-stats');
+if(!sorted.length)tEl.innerHTML='<div style="color:var(--text3);font-size:13px">\u6682\u65e0\u6570\u636e</div>';
+else{var mT=sorted[0][1];tEl.innerHTML=sorted.map(function(x){var pc=Math.round(x[1]/mT*100);return '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px"><span>'+x[0]+'</span><span style="color:var(--text3)">'+x[1]+'\u6b21</span></div><div style="height:6px;border-radius:3px;background:var(--border)"><div style="width:'+pc+'%;height:100%;border-radius:3px;background:var(--orange)"></div></div></div>'}).join('')}
+/* Mood */
+var mC=document.getElementById('mood-chart');var rec=D.reviews.slice(-14).filter(function(r){return r.mood>=0});
+if(!rec.length)mC.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u56de\u987e</div>';
+else{var mc=['var(--red)','var(--text3)','var(--blue)','var(--green)'];mC.innerHTML=rec.map(function(r){var h=(r.mood+1)/4*60;return '<div class="bar-wrap"><div class="bar-val">'+MOODS[r.mood]+'</div><div class="bar" style="height:'+h+'px;background:'+mc[r.mood]+'"></div><div class="bar-label">'+r.date.slice(5)+'</div></div>'}).join('')}
+/* Resist rate */
+var rC=document.getElementById('resist-rate-chart');var l7=[];
+for(var i=6;i>=0;i--){var d=new Date(Date.now()-i*86400000);var dk=dateKey(d);
+var de=D.events.filter(function(e){return dateKey(new Date(e.time))===dk});
+var r=de.filter(function(e){return e.type==='resist'}).length;var s=de.filter(function(e){return e.type==='slip'}).length;var t=r+s;
+l7.push({rate:t>0?Math.round(r/t*100):null,label:dk.slice(5)})}
+var hd=l7.some(function(d){return d.rate!==null});
+if(!hd)rC.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u6570\u636e</div>';
+else{rC.innerHTML=l7.map(function(d){if(d.rate===null)return '<div class="bar-wrap"><div class="bar-val"></div><div class="bar" style="height:2px;background:var(--border)"></div><div class="bar-label">'+d.label+'</div></div>';
 var h=d.rate/100*70;var c=d.rate>=60?'var(--green)':d.rate>=30?'var(--yellow)':'var(--red)';
-return '<div class="bar-wrap"><div class="bar-val">'+d.rate+'%</div><div class="bar" style="height:'+h+'px;background:'+c+'"></div><div class="bar-label">'+d.label+'</div></div>';
-}).join('');
-}
+return '<div class="bar-wrap"><div class="bar-val">'+d.rate+'%</div><div class="bar" style="height:'+h+'px;background:'+c+'"></div><div class="bar-label">'+d.label+'</div></div>'}).join('')}
 }
 
+/* ===== COST ===== */
 function renderCost(){
 var list=document.getElementById('cost-list');
-if(!D.costItems.length){list.innerHTML='<div style="color:var(--text3);font-size:13px">\u6682\u65e0\u4ea7\u54c1</div>'}
-else{
-list.innerHTML=D.costItems.map(function(item,i){
-return '<div class="cost-item"><div>'+item.name+'<br><span style="color:var(--text3);font-size:11px">$'+item.price+' / '+item.days+'\u5929</span></div><button class="btn-outline btn-sm" style="color:var(--red);border-color:var(--red)" onclick="removeCostItem('+i+')">\u5220\u9664</button></div>';
-}).join('');
-}
+if(!D.costItems.length)list.innerHTML='<div style="color:var(--text3);font-size:13px">\u6682\u65e0\u4ea7\u54c1</div>';
+else list.innerHTML=D.costItems.map(function(it,i){return '<div class="cost-item"><div>'+it.name+'<br><span style="color:var(--text3);font-size:11px">$'+it.price+' / '+it.days+'\u5929</span></div><button class="btn-outline btn-sm" style="color:var(--red);border-color:var(--red)" onclick="removeCostItem('+i+')">\u5220\u9664</button></div>'}).join('');
 var dailyCost=D.costItems.reduce(function(s,it){return s+it.price/it.days},0);
 document.getElementById('daily-cost').textContent='$'+dailyCost.toFixed(2)+'/\u5929';
 var days=D.startTime?((Date.now()-D.startTime)/86400000):0;
 document.getElementById('saved-amount').textContent='$'+(dailyCost*days).toFixed(2);
 }
-function addCostItem(){
-var n=document.getElementById('ci-name').value.trim();
-var p=parseFloat(document.getElementById('ci-price').value);
-var d=parseInt(document.getElementById('ci-days').value);
+function addCostItem(){var n=document.getElementById('ci-name').value.trim(),p=parseFloat(document.getElementById('ci-price').value),d=parseInt(document.getElementById('ci-days').value);
 if(!n||!p||!d||d<=0){alert('\u8bf7\u586b\u5199\u5b8c\u6574\u4fe1\u606f');return}
 D.costItems.push({name:n,price:p,days:d});save();renderCost();
-document.getElementById('ci-name').value='';document.getElementById('ci-price').value='';document.getElementById('ci-days').value='';
-}
+document.getElementById('ci-name').value='';document.getElementById('ci-price').value='';document.getElementById('ci-days').value=''}
 function removeCostItem(i){D.costItems.splice(i,1);save();renderCost()}
 
+/* ===== HISTORY ===== */
 function renderHistory(){
-var el=document.getElementById('history-list');
-var dateSet={};
+var el=document.getElementById('history-list');var dateSet={};
 D.events.forEach(function(e){dateSet[dateKey(new Date(e.time))]=true});
 D.reviews.forEach(function(r){dateSet[r.date]=true});
 var allDates=Object.keys(dateSet).sort().reverse();
 if(!allDates.length){el.innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px">\u6682\u65e0\u8bb0\u5f55</div>';return}
-var icons={resist:'\u270a',nrt:'\ud83d\udc8a',slip:'\ud83d\udeb0'};
-var labels={resist:'\u5fcd\u4f4f\u4e86',nrt:'\u66ff\u4ee3',slip:'\u6ca1\u5fcd\u4f4f'};
-var p=getPhase();
+var icons={resist:'\u270a',nrt:'\ud83d\udc8a',slip:'\ud83d\udeb0'},labels={resist:'\u5fcd\u4f4f\u4e86',nrt:'\u66ff\u4ee3',slip:'\u6ca1\u5fcd\u4f4f'};
 el.innerHTML=allDates.slice(0,30).map(function(dk){
-var dayEvents=D.events.filter(function(e){return dateKey(new Date(e.time))===dk}).sort(function(a,b){return a.time-b.time});
-var review=null;for(var i=0;i<D.reviews.length;i++){if(D.reviews[i].date===dk){review=D.reviews[i];break}}
-var pass=isDayPass(dk,p.idx);
-var evHTML=dayEvents.map(function(ev){
-var detail=labels[ev.type];
-if(ev.slipType){for(var j=0;j<SLIP_TYPES.length;j++){if(SLIP_TYPES[j].id===ev.slipType){detail+=' '+SLIP_TYPES[j].label;break}}}
-if(ev.nrtMg!==undefined)detail+=' '+ev.nrtMg+'mg';
-if(ev.triggers&&ev.triggers.length)detail+=' ('+ev.triggers.join(', ')+')';
-return '<div style="margin-top:3px">'+icons[ev.type]+' '+fmtTime(ev.time)+' '+detail+'</div>';
-}).join('');
-if(review){evHTML+='<div style="margin-top:3px">\ud83c\udf19 '+(review.mood>=0?MOODS[review.mood]:'')+' '+(review.note||'')+'</div>'}
-return '<div class="hist-item"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:600">'+dk+'</span><span style="color:'+(pass?'var(--green)':'var(--orange)')+'">'+(dayEvents.length?pass?'\u2705 \u8fbe\u6807':'\u26a0\ufe0f \u6709\u6ed1\u843d':'\u2014')+'</span></div><div style="font-size:12px;color:var(--text2)">'+(evHTML||'\u65e0\u8bb0\u5f55')+'</div></div>';
-}).join('');
+var dayEv=D.events.filter(function(e){return dateKey(new Date(e.time))===dk}).sort(function(a,b){return a.time-b.time});
+var rev=null;for(var i=0;i<D.reviews.length;i++){if(D.reviews[i].date===dk){rev=D.reviews[i];break}}
+var pass=isDayPass(dk);
+var evH=dayEv.map(function(ev){var det=labels[ev.type];
+if(ev.slipType){for(var j=0;j<SLIP_TYPES.length;j++){if(SLIP_TYPES[j].id===ev.slipType){det+=' '+SLIP_TYPES[j].label;break}}}
+if(ev.puffsLabel)det+=' '+ev.puffsLabel;
+if(ev.nrtMg!==undefined)det+=' '+ev.nrtMg+'mg';
+if(ev.triggers&&ev.triggers.length)det+=' ('+ev.triggers.join(', ')+')';
+return '<div style="margin-top:3px">'+icons[ev.type]+' '+fmtTime(ev.time)+' '+det+'</div>'}).join('');
+if(rev)evH+='<div style="margin-top:3px">\ud83c\udf19 '+(rev.mood>=0?MOODS[rev.mood]:'')+' '+(rev.note||'')+'</div>';
+return '<div class="hist-item"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:600">'+dk+'</span><span style="color:'+(pass?'var(--green)':'var(--orange)')+'">'+(dayEv.length?pass?'\u2705 \u8fbe\u6807':'\u26a0\ufe0f \u6ed1\u843d':'\u2014')+'</span></div><div style="font-size:12px;color:var(--text2)">'+(evH||'\u65e0\u8bb0\u5f55')+'</div></div>'}).join('');
 }
 
+/* ===== IMPORT / EXPORT ===== */
 function exportData(){
 var blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
 var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quit_smoking_backup_'+today()+'.json';a.click();
+showToast('\ud83d\udce4 \u5907\u4efd\u5df2\u4e0b\u8f7d');
+}
+function importData(evt){
+var file=evt.target.files[0];if(!file)return;
+var reader=new FileReader();
+reader.onload=function(e){
+try{
+var imported=JSON.parse(e.target.result);
+if(!imported.events&&!imported.startTime){alert('\u65e0\u6548\u7684\u5907\u4efd\u6587\u4ef6');return}
+if(!confirm('\u5bfc\u5165\u5c06\u8986\u76d6\u5f53\u524d\u6570\u636e\uff0c\u786e\u5b9a\u5417\uff1f'))return;
+D=migrate(imported);save();render();
+showToast('\ud83d\udce5 \u6570\u636e\u5df2\u6062\u590d\uff01');
+}catch(err){alert('\u6587\u4ef6\u89e3\u6790\u5931\u8d25\uff1a'+err.message)}
+};
+reader.readAsText(file);
+evt.target.value='';
 }
 function resetData(){
-if(!confirm('\u786e\u5b9a\u8981\u91cd\u7f6e\u6240\u6709\u6570\u636e\u5417\uff1f\u6b64\u64cd\u4f5c\u4e0d\u53ef\u6062\u590d\uff01'))return;
-if(!confirm('\u771f\u7684\u786e\u5b9a\u5417\uff1f'))return;
-localStorage.removeItem(LS);D=load();save();render();
+if(!confirm('\u786e\u5b9a\u91cd\u7f6e\uff1f\u5efa\u8bae\u5148\u5bfc\u51fa\u5907\u4efd\uff01'))return;
+if(!confirm('\u6700\u540e\u786e\u8ba4\uff1a\u6240\u6709\u6570\u636e\u5c06\u6c38\u4e45\u5220\u9664'))return;
+localStorage.removeItem(LS);localStorage.removeItem('quit_smoking_v2');
+D=defaultData();save();render();
 }
 
+/* ===== RENDER ===== */
 function render(){
 var started=!!D.startTime;
 document.getElementById('start-btn').textContent=started?'\u21bb \u91cd\u65b0\u5f00\u59cb':'\u5f00\u59cb\u6212\u70df\u4e4b\u65c5';
 document.getElementById('action-card').classList.toggle('hidden',!started);
 document.getElementById('phase-card').style.opacity=started?'1':'.5';
-renderPhase();renderTimeline();renderGrid();renderMilestones();renderBadges();renderQuote();
+renderPhase();renderTimeline();renderGrid();renderPhaseMilestones();renderHealthMilestones();renderBadges();renderQuote();
 }
 
 render();startTimer();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 
 }catch(err){
-document.getElementById('app').innerHTML='<div class="err-box"><div>\ud83d\ude35 \u51fa\u9519\u4e86</div><div style="font-size:12px;margin:8px 0">'+err.message+'</div><button onclick="localStorage.removeItem(\'quit_smoking_v2\');location.reload()">\u91cd\u7f6e\u5e76\u5237\u65b0</button></div>';
+document.getElementById('app').innerHTML='<div class="err-box"><div>\ud83d\ude35 \u51fa\u9519\u4e86</div><div style="font-size:12px;margin:8px 0">'+err.message+'</div><button onclick="localStorage.removeItem(\'quit_smoking_v3\');location.reload()">\u91cd\u7f6e\u5e76\u5237\u65b0</button></div>';
 }
 </script>
 </body>
