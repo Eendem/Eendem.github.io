@@ -1,0 +1,22 @@
+{
+  "name": "我的戒烟之旅",
+  "short_name": "戒烟打卡",
+  "description": "四阶段科学戒烟打卡应用",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C1222",
+  "theme_color": "#10B981",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

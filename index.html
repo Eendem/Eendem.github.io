@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="戒烟打卡">
+<meta name="theme-color" content="#10B981">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>我的戒烟之旅</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg1:#0C1222;--bg2:#162032;--card:#1E293B;--border:#334155;
+--green:#10B981;--red:#EF4444;--blue:#60A5FA;--yellow:#FBBF24;
+--text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;
+}
+html,body{min-height:100vh;font-family:-apple-system,'Noto Sans SC','PingFang SC','Hiragino Sans GB',sans-serif;
+background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;padding:16px 12px env(safe-area-inset-bottom)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h3{font-size:14px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+button{border:none;border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;
+font-family:inherit;transition:all .2s;-webkit-appearance:none}
+button:active{transform:scale(.96);opacity:.8}
+.btn-green{background:linear-gradient(135deg,#059669,var(--green));color:#fff}
+.btn-red{background:linear-gradient(135deg,#DC2626,var(--red));color:#fff}
+.btn-blue{background:linear-gradient(135deg,#3B82F6,var(--blue));color:#fff}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:8px}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+
+/* Timer */
+.timer-display{font-family:'Courier New',monospace;font-size:28px;font-weight:700;color:var(--green);
+text-align:center;padding:12px 0;letter-spacing:2px;text-shadow:0 0 20px rgba(16,185,129,.3)}
+.timer-label{text-align:center;color:var(--text2);font-size:13px;margin-bottom:4px}
+
+/* Phase bar */
+.phase-bar{display:flex;gap:4px;margin-bottom:8px}
+.phase-seg{flex:1;height:6px;border-radius:3px;background:var(--border)}
+.phase-seg.active{background:var(--green)}
+.phase-seg.done{background:var(--green);opacity:.5}
+.phase-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text2)}
+
+/* Mood */
+.mood-row{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.mood-btn{flex:1;min-width:60px;padding:10px 4px;text-align:center;background:var(--bg1);border:1px solid var(--border);
+border-radius:10px;font-size:22px;cursor:pointer;transition:all .2s}
+.mood-btn.sel{border-color:var(--green);background:rgba(16,185,129,.15)}
+.mood-btn span{display:block;font-size:10px;color:var(--text3);margin-top:2px}
+textarea{width:100%;background:var(--bg1);border:1px solid var(--border);border-radius:8px;color:var(--text);
+padding:8px;font-family:inherit;font-size:13px;resize:none;min-height:50px}
+
+/* Grid */
+.grid21{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0}
+.grid21 .cell{aspect-ratio:1;border-radius:8px;background:var(--bg1);border:1px solid var(--border);
+display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text3)}
+.grid21 .cell.checked{background:rgba(16,185,129,.15);border-color:var(--green)}
+.grid21 .cell .day{font-size:9px;opacity:.6}
+
+/* Milestone */
+.milestone{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.milestone:last-child{border:none}
+.milestone .icon{font-size:20px;width:32px;text-align:center}
+.milestone .info{flex:1}
+.milestone .info .t{font-size:13px}
+.milestone .info .d{font-size:11px;color:var(--text3)}
+.milestone.done .info .t{color:var(--green)}
+.milestone.next .info .t{color:var(--yellow)}
+
+/* Chart */
+.bar-chart{display:flex;align-items:flex-end;gap:3px;height:100px;padding-top:10px}
+.bar-chart .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bar-chart .bar{width:100%;border-radius:3px 3px 0 0;background:var(--red);min-height:2px;transition:height .3s}
+.bar-chart .bar-label{font-size:8px;color:var(--text3)}
+.bar-chart .bar-val{font-size:8px;color:var(--text2)}
+
+/* Badge */
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{padding:6px 10px;border-radius:8px;font-size:12px;background:var(--bg1);border:1px solid var(--border)}
+.badge.earned{border-color:var(--yellow);background:rgba(251,191,36,.1)}
+
+/* Cost */
+.cost-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.cost-item:last-child{border:none}
+.saved{font-size:24px;font-weight:700;color:var(--green);text-align:center;padding:8px 0}
+
+/* History */
+.hist-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.hist-item:last-child{border:none}
+.hist-toggle{cursor:pointer;color:var(--blue);font-size:13px}
+
+/* Celebration overlay */
+.celebrate{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
+background:rgba(0,0,0,.7);z-index:999;animation:fadeIn .3s}
+.celebrate-inner{text-align:center;padding:30px;animation:popIn .4s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.celebrate .emoji{font-size:64px;margin-bottom:16px}
+.celebrate .msg{font-size:18px;margin-bottom:8px}
+.celebrate .sub{font-size:13px;color:var(--text2);margin-bottom:16px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:14px;position:sticky;top:0;z-index:10;
+background:linear-gradient(180deg,var(--bg1),transparent);padding:8px 0}
+.tab{flex:1;padding:10px 4px;text-align:center;border-radius:10px;font-size:13px;font-weight:600;
+background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer}
+.tab.active{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+
+/* NRT selector */
+.nrt-row{display:flex;gap:6px;margin:8px 0}
+.nrt-btn{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;
+background:var(--bg1);border:1px solid var(--border);color:var(--text2);cursor:pointer}
+.nrt-btn.sel{border-color:var(--yellow);color:var(--yellow);background:rgba(251,191,36,.1)}
+
+.weekly-stat{text-align:center;padding:6px}
+.weekly-stat .num{font-size:22px;font-weight:700}
+.weekly-stat .lbl{font-size:11px;color:var(--text3)}
+.weekly-stats{display:flex;gap:4px}
+.weekly-stats>div{flex:1}
+
+.quote{text-align:center;font-size:13px;color:var(--text2);font-style:italic;padding:8px 0;line-height:1.6}
+
+footer{text-align:center;font-size:11px;color:var(--text3);padding:20px 0 40px}
+
+.hidden{display:none!important}
+
+/* Craving flash */
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.5}}
+.craving-flash{animation:flash .6s 3}
+
+/* Confetti */
+.confetti{position:fixed;top:-10px;font-size:20px;animation:confettiFall 3s linear forwards;z-index:1000;pointer-events:none}
+@keyframes confettiFall{to{top:110vh;opacity:0}}
+
+.err-box{background:var(--red);color:#fff;padding:16px;border-radius:12px;margin:20px;text-align:center}
+.err-box button{margin-top:10px;background:#fff;color:var(--red)}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<!-- Tabs -->
+<div class="tabs">
+<div class="tab active" data-tab="main" onclick="switchTab('main')">🏠 主页</div>
+<div class="tab" data-tab="stats" onclick="switchTab('stats')">📊 分析</div>
+<div class="tab" data-tab="cost" onclick="switchTab('cost')">💰 省钱</div>
+<div class="tab" data-tab="hist" onclick="switchTab('hist')">📋 记录</div>
+</div>
+
+<!-- ===== MAIN TAB ===== -->
+<div id="tab-main">
+
+<!-- Timer -->
+<div class="card">
+<div class="timer-label">已坚持</div>
+<div class="timer-display" id="timer">0天 00:00:00</div>
+<div id="start-section" style="text-align:center;margin-top:8px">
+<button class="btn-green" onclick="startJourney()" id="start-btn">开始戒烟之旅</button>
+</div>
+</div>
+
+<!-- Phase -->
+<div class="card" id="phase-card">
+<h3>📋 当前阶段</h3>
+<div id="phase-name" style="font-size:15px;font-weight:600;margin-bottom:8px"></div>
+<div class="phase-bar" id="phase-bar"></div>
+<div class="phase-info"><span id="phase-day"></span><span id="phase-remain"></span></div>
+<div id="nrt-section" class="hidden">
+<div style="font-size:12px;color:var(--text2);margin-top:8px">口含烟浓度：</div>
+<div class="nrt-row" id="nrt-row"></div>
+</div>
+</div>
+
+<!-- Check-in -->
+<div class="card" id="checkin-card">
+<h3>✅ 每日打卡</h3>
+<div class="mood-row" id="mood-row">
+<div class="mood-btn" data-mood="0" onclick="selMood(0)">😫<span>很难</span></div>
+<div class="mood-btn" data-mood="1" onclick="selMood(1)">😐<span>一般</span></div>
+<div class="mood-btn" data-mood="2" onclick="selMood(2)">😊<span>还行</span></div>
+<div class="mood-btn" data-mood="3" onclick="selMood(3)">💪<span>很好</span></div>
+</div>
+<textarea id="note-input" placeholder="今天的感受（可选）..."></textarea>
+<div style="margin-top:8px;display:flex;gap:8px">
+<button class="btn-green" style="flex:1" onclick="doCheckin()">打卡</button>
+<button class="btn-red" style="flex:1" onclick="logCraving()">🔥 烟瘾来了</button>
+</div>
+<div id="craving-msg" class="hidden" style="text-align:center;margin-top:8px;padding:10px;border-radius:8px;background:rgba(239,68,68,.1);color:var(--red);font-size:13px">
+深呼吸！烟瘾通常3-5分钟就会过去 💨<br>你已经记录了，坚持住！
+</div>
+</div>
+
+<!-- Daily quote -->
+<div class="card">
+<div class="quote" id="daily-quote"></div>
+</div>
+
+<!-- 21-day grid -->
+<div class="card">
+<h3>📅 21天打卡</h3>
+<div class="grid21" id="grid21"></div>
+</div>
+
+<!-- Milestones -->
+<div class="card">
+<h3>🏥 健康里程碑</h3>
+<div id="milestones"></div>
+</div>
+
+<!-- Badges -->
+<div class="card">
+<h3>🏆 成就徽章</h3>
+<div class="badges" id="badges"></div>
+</div>
+
+</div><!-- /tab-main -->
+
+<!-- ===== STATS TAB ===== -->
+<div id="tab-stats" class="hidden">
+
+<div class="card">
+<h3>📈 本周总结</h3>
+<div class="weekly-stats" id="weekly-stats"></div>
+</div>
+
+<div class="card">
+<h3>🔥 本周烟瘾趋势</h3>
+<div class="bar-chart" id="weekly-craving-chart"></div>
+</div>
+
+<div class="card">
+<h3>⏰ 烟瘾高发时段（24h）</h3>
+<div class="bar-chart" id="hourly-chart"></div>
+</div>
+
+<div class="card">
+<h3>😊 最近心情趋势</h3>
+<div class="bar-chart" id="mood-chart" style="height:80px"></div>
+</div>
+
+</div><!-- /tab-stats -->
+
+<!-- ===== COST TAB ===== -->
+<div id="tab-cost" class="hidden">
+
+<div class="card">
+<h3>💰 已省下</h3>
+<div class="saved" id="saved-amount">$0.00</div>
+<div style="text-align:center;font-size:12px;color:var(--text2)">日均花费：<span id="daily-cost">$0.00</span></div>
+</div>
+
+<div class="card">
+<h3>🛒 消费产品</h3>
+<div id="cost-list"></div>
+<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+<input id="ci-name" placeholder="产品名称" style="flex:2;min-width:80px;padding:8px;border-radius:8px;background:var(--bg1);border:1px solid var(--border);color:var(--text);font-size:13px">
+<input id="ci-price" placeholder="$价格" type="number" style="flex:1;min-width:50px;padding:8px;border-radius:8px;background:var(--bg1);border:1px solid var(--border);color:var(--text);font-size:13px">
+<input id="ci-days" placeholder="天数" type="number" style="flex:1;min-width:40px;padding:8px;border-radius:8px;background:var(--bg1);border:1px solid var(--border);color:var(--text);font-size:13px">
+</div>
+<button class="btn-blue btn-sm" style="margin-top:8px;width:100%" onclick="addCostItem()">添加产品</button>
+</div>
+
+</div><!-- /tab-cost -->
+
+<!-- ===== HISTORY TAB ===== -->
+<div id="tab-hist" class="hidden">
+
+<div class="card">
+<h3>📋 打卡历史</h3>
+<div id="history-list"></div>
+</div>
+
+<div class="card" style="text-align:center">
+<button class="btn-outline btn-sm" onclick="exportData()">📤 导出数据</button>
+<button class="btn-outline btn-sm" style="margin-left:8px;color:var(--red);border-color:var(--red)" onclick="resetData()">🗑️ 重置数据</button>
+</div>
+
+</div><!-- /tab-hist -->
+
+<footer>我的戒烟之旅 · 你比你想象的更强大</footer>
+</div>
+
+<!-- Celebration overlay -->
+<div class="celebrate hidden" id="celebrate" onclick="closeCelebrate()">
+<div class="celebrate-inner">
+<div class="emoji" id="celeb-emoji"></div>
+<div class="msg" id="celeb-msg"></div>
+<div class="sub" id="celeb-sub"></div>
+<button class="btn-green btn-sm">太棒了！</button>
+</div>
+</div>
+
+<script>
+try{
+// ===== DATA =====
+const LS = 'quit_smoking_v1';
+const PHASES = [
+  {name:'阶段1：断手卷',desc:'完全停掉手卷烟，电子烟照常，烟瘾时用口含烟6mg',days:14},
+  {name:'阶段2：替换电子烟',desc:'设定无电子烟时段，逐步扩大，用口含烟6mg替代',days:14},
+  {name:'阶段3：脱离电子烟',desc:'全天只用口含烟，彻底告别电子烟',days:14},
+  {name:'阶段4：口含烟递减',desc:'6mg→4mg→2mg→0mg，每1-2周降一档',days:56}
+];
+const MILESTONES = [
+  {mins:20,icon:'💓',t:'心率血压下降',d:'开始恢复正常'},
+  {mins:480,icon:'🫁',t:'血氧恢复',d:'血液含氧量恢复正常'},
+  {mins:1440,icon:'💨',t:'一氧化碳排出',d:'体内CO完全排出'},
+  {mins:2880,icon:'👅',t:'味觉嗅觉恢复',d:'开始重新感受美食'},
+  {mins:4320,icon:'🧬',t:'尼古丁代谢完毕',d:'体内尼古丁完全清除'},
+  {mins:20160,icon:'🏃',t:'肺功能改善',d:'呼吸变得更轻松'},
+  {mins:43200,icon:'❤️',t:'血液循环改善',d:'整体循环系统提升'},
+  {mins:129600,icon:'🫀',t:'肺功能提升30%',d:'显著的肺活量增加'},
+  {mins:525600,icon:'🎉',t:'心脏病风险降低一半',d:'重大健康里程碑！'}
+];
+const BADGE_LEVELS = [
+  {days:3,icon:'🥉',name:'3天'},
+  {days:7,icon:'🥈',name:'1周'},
+  {days:14,icon:'🥇',name:'2周'},
+  {days:30,icon:'🎖️',name:'1个月'},
+  {days:60,icon:'💎',name:'2个月'},
+  {days:90,icon:'👑',name:'3个月'}
+];
+const MOODS = ['😫','😐','😊','💪'];
+const QUOTES = [
+  '「每一次抵抗烟瘾，都是在为未来的自己投票」',
+  '「你不是在失去什么，而是在夺回自由」',
+  '「烟瘾只是暂时的访客，你才是这里的主人」',
+  '「今天不容易，但明天的你会感谢今天的坚持」',
+  '「每根没抽的烟，都是一次小小的胜利」',
+  '「三分钟，只需要三分钟，烟瘾就会离开」',
+  '「你的肺正在一点一点变干净」',
+  '「不是戒不掉，是还没下定决心而已——但你已经开始了」',
+  '「与其说戒烟难，不如说自由更值得」',
+  '「每一天都是新纪录，你从未走到过今天这么远」',
+  '「尼古丁欠你的，你正在一天天讨回来」',
+  '「烟瘾说它需要你，但其实你根本不需要它」',
+  '「复吸不是失败，放弃才是」',
+  '「你能控制烟瘾，就像你能控制呼吸一样」',
+  '「省下的不只是钱，还有十年寿命」',
+  '「别回头看，你要去的方向没有烟」',
+  '「困难的路越走越容易，容易的路越走越难」',
+  '「当烟瘾来敲门，告诉它你不在家」',
+  '「身体正在修复，你只需要给它时间」',
+  '「戒烟不是惩罚，是给自己最好的礼物」'
+];
+
+let D = load();
+
+function load(){
+  try{
+    const s = localStorage.getItem(LS);
+    if(s) return JSON.parse(s);
+  }catch(e){}
+  return {startTime:null,phase:0,nrt:6,checkins:[],cravings:[],
+    costItems:[{name:'手卷烟草',price:80,days:14},{name:'电子烟烟弹',price:25,days:5}],
+    celebratedMilestones:[]};
+}
+function save(){try{localStorage.setItem(LS,JSON.stringify(D))}catch(e){}}
+
+// ===== TIMER =====
+let timerInterval;
+function startTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+  updateTimer();
+}
+function updateTimer(){
+  if(!D.startTime){document.getElementById('timer').textContent='0天 00:00:00';return}
+  const diff = Date.now() - D.startTime;
+  const s = Math.floor(diff/1000), m = Math.floor(s/60), h = Math.floor(m/60), d = Math.floor(h/24);
+  const ss = String(s%60).padStart(2,'0'), mm = String(m%60).padStart(2,'0'), hh = String(h%24).padStart(2,'0');
+  document.getElementById('timer').textContent = d+'天 '+hh+':'+mm+':'+ss;
+  checkMilestones(m);
+}
+function startJourney(){
+  if(D.startTime){if(!confirm('已经在进行中，要重新开始吗？'))return;D.startTime=null;D.checkins=[];D.cravings=[];D.celebratedMilestones=[];D.phase=0;}
+  D.startTime = Date.now();
+  save(); render();
+}
+
+// ===== TABS =====
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===t));
+  ['main','stats','cost','hist'].forEach(id=>{
+    document.getElementById('tab-'+id).classList.toggle('hidden',id!==t);
+  });
+  if(t==='stats') renderStats();
+  if(t==='cost') renderCost();
+  if(t==='hist') renderHistory();
+}
+
+// ===== MOOD =====
+let selMoodVal = -1;
+function selMood(v){
+  selMoodVal = v;
+  document.querySelectorAll('.mood-btn').forEach(el=>el.classList.toggle('sel',parseInt(el.dataset.mood)===v));
+}
+
+// ===== CHECKIN =====
+function doCheckin(){
+  if(!D.startTime){alert('请先点击「开始戒烟之旅」');return}
+  const today = dateKey(new Date());
+  if(D.checkins.find(c=>c.date===today)){alert('今天已经打卡过了！');return}
+  D.checkins.push({date:today,time:Date.now(),mood:selMoodVal,note:document.getElementById('note-input').value.trim()});
+  save();
+  selMoodVal = -1;
+  document.getElementById('note-input').value='';
+  document.querySelectorAll('.mood-btn').forEach(el=>el.classList.remove('sel'));
+  render();
+  showConfetti();
+}
+
+// ===== CRAVING =====
+function logCraving(){
+  if(!D.startTime){alert('请先开始戒烟之旅');return}
+  D.cravings.push({time:Date.now()});
+  save();
+  const msg = document.getElementById('craving-msg');
+  msg.classList.remove('hidden');
+  msg.classList.add('craving-flash');
+  setTimeout(()=>{msg.classList.remove('craving-flash')},2000);
+  setTimeout(()=>{msg.classList.add('hidden')},8000);
+  render();
+}
+
+// ===== MILESTONES =====
+function checkMilestones(elapsedMins){
+  if(!D.startTime) return;
+  for(const ms of MILESTONES){
+    if(elapsedMins >= ms.mins && !D.celebratedMilestones.includes(ms.mins)){
+      D.celebratedMilestones.push(ms.mins);
+      save();
+      showCelebration(ms.icon, ms.t, ms.d);
+      break;
+    }
+  }
+}
+function showCelebration(emoji, msg, sub){
+  document.getElementById('celeb-emoji').textContent = emoji;
+  document.getElementById('celeb-msg').textContent = msg;
+  document.getElementById('celeb-sub').textContent = sub;
+  document.getElementById('celebrate').classList.remove('hidden');
+  showConfetti();
+}
+function closeCelebrate(){document.getElementById('celebrate').classList.add('hidden')}
+
+function showConfetti(){
+  const emojis = ['🎉','🎊','⭐','✨','💚','🌟'];
+  for(let i=0;i<12;i++){
+    const el = document.createElement('div');
+    el.className='confetti';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100+'vw';
+    el.style.animationDelay = Math.random()*1+'s';
+    el.style.animationDuration = (2+Math.random()*2)+'s';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),5000);
+  }
+}
+
+// ===== PHASE =====
+function getPhase(){
+  if(!D.startTime) return {idx:0,dayInPhase:0,totalPhaseDay:0};
+  const totalDays = Math.floor((Date.now()-D.startTime)/86400000);
+  let acc=0;
+  for(let i=0;i<PHASES.length;i++){
+    if(totalDays < acc+PHASES[i].days || i===PHASES.length-1){
+      return {idx:i, dayInPhase: totalDays-acc, totalDay: totalDays};
+    }
+    acc+=PHASES[i].days;
+  }
+  return {idx:3,dayInPhase:0,totalDay:0};
+}
+function renderPhase(){
+  const p = getPhase();
+  const ph = PHASES[p.idx];
+  document.getElementById('phase-name').textContent = ph.name;
+  document.getElementById('phase-name').style.color = 'var(--green)';
+  
+  let barHTML='';
+  for(let i=0;i<4;i++){
+    const cls = i<p.idx?'done':i===p.idx?'active':'';
+    barHTML+=`<div class="phase-seg ${cls}"></div>`;
+  }
+  document.getElementById('phase-bar').innerHTML=barHTML;
+  
+  const progress = Math.min(p.dayInPhase, ph.days);
+  const remain = Math.max(0, ph.days - p.dayInPhase);
+  document.getElementById('phase-day').textContent = `第${p.dayInPhase+1}天 / ${ph.days}天`;
+  document.getElementById('phase-remain').textContent = remain>0?`剩余${remain}天`:'即将进入下一阶段';
+  
+  // NRT selector for phase 4
+  const nrtSec = document.getElementById('nrt-section');
+  if(p.idx===3){
+    nrtSec.classList.remove('hidden');
+    const row = document.getElementById('nrt-row');
+    row.innerHTML=[6,4,2,0].map(v=>
+      `<div class="nrt-btn ${D.nrt===v?'sel':''}" onclick="setNrt(${v})">${v}mg</div>`
+    ).join('');
+  }else{
+    nrtSec.classList.add('hidden');
+  }
+}
+function setNrt(v){D.nrt=v;save();renderPhase();}
+
+// ===== GRID =====
+function renderGrid(){
+  const el = document.getElementById('grid21');
+  if(!D.startTime){el.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:13px;padding:20px">开始戒烟后显示打卡网格</div>';return}
+  const startDate = new Date(D.startTime);
+  startDate.setHours(0,0,0,0);
+  let html='';
+  for(let i=0;i<21;i++){
+    const d = new Date(startDate.getTime()+i*86400000);
+    const dk = dateKey(d);
+    const ci = D.checkins.find(c=>c.date===dk);
+    const cravCount = D.cravings.filter(c=>dateKey(new Date(c.time))===dk).length;
+    const isToday = dk===dateKey(new Date());
+    const isFuture = d > new Date();
+    
+    if(ci){
+      html+=`<div class="cell checked"><div class="day">${i+1}</div>${ci.mood>=0?MOODS[ci.mood]:'✓'}</div>`;
+    }else if(isFuture){
+      html+=`<div class="cell"><div class="day">${i+1}</div>·</div>`;
+    }else{
+      html+=`<div class="cell"><div class="day">${i+1}</div>${cravCount>0?'<span style="color:var(--red);font-size:9px">🔥'+cravCount+'</span>':'·'}</div>`;
+    }
+  }
+  el.innerHTML=html;
+}
+
+// ===== MILESTONES RENDER =====
+function renderMilestones(){
+  if(!D.startTime){document.getElementById('milestones').innerHTML='<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px">开始后解锁</div>';return}
+  const elapsedMins = (Date.now()-D.startTime)/60000;
+  let foundNext=false;
+  document.getElementById('milestones').innerHTML = MILESTONES.map(ms=>{
+    const done = elapsedMins >= ms.mins;
+    const isNext = !done && !foundNext;
+    if(isNext) foundNext=true;
+    return `<div class="milestone ${done?'done':''} ${isNext?'next':''}">
+      <div class="icon">${ms.icon}</div>
+      <div class="info"><div class="t">${ms.t} ${done?'✓':isNext?'← 下一个':''}</div><div class="d">${ms.d}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ===== BADGES =====
+function renderBadges(){
+  const streak = getStreak();
+  document.getElementById('badges').innerHTML = BADGE_LEVELS.map(b=>
+    `<div class="badge ${streak>=b.days?'earned':''}">${b.icon} ${b.name}${streak>=b.days?' ✓':''}</div>`
+  ).join('');
+}
+function getStreak(){
+  if(!D.startTime) return 0;
+  let streak=0;
+  const today = new Date();today.setHours(0,0,0,0);
+  for(let i=0;i<365;i++){
+    const d = new Date(today.getTime()-i*86400000);
+    const dk = dateKey(d);
+    if(D.checkins.find(c=>c.date===dk)) streak++;
+    else if(i>0) break;
+  }
+  return streak;
+}
+
+// ===== QUOTE =====
+function renderQuote(){
+  const idx = Math.floor(Date.now()/86400000) % QUOTES.length;
+  document.getElementById('daily-quote').textContent = QUOTES[idx];
+}
+
+// ===== STATS =====
+function renderStats(){
+  // Weekly summary
+  const now = new Date();
+  const weekStart = new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
+  const lastWeekStart = new Date(weekStart.getTime()-7*86400000);
+  
+  const thisWeekCheckins = D.checkins.filter(c=>c.time>=weekStart.getTime()).length;
+  const thisWeekCravings = D.cravings.filter(c=>c.time>=weekStart.getTime()).length;
+  const lastWeekCravings = D.cravings.filter(c=>c.time>=lastWeekStart.getTime()&&c.time<weekStart.getTime()).length;
+  const cravChange = lastWeekCravings>0?Math.round((thisWeekCravings-lastWeekCravings)/lastWeekCravings*100):0;
+  
+  document.getElementById('weekly-stats').innerHTML=`
+    <div class="weekly-stat"><div class="num" style="color:var(--green)">${thisWeekCheckins}/7</div><div class="lbl">打卡天数</div></div>
+    <div class="weekly-stat"><div class="num" style="color:var(--red)">${thisWeekCravings}</div><div class="lbl">烟瘾次数</div></div>
+    <div class="weekly-stat"><div class="num" style="color:${cravChange<=0?'var(--green)':'var(--red)'}">${cravChange>0?'+':''}${cravChange}%</div><div class="lbl">vs上周</div></div>`;
+  
+  // Weekly craving chart
+  const wChart = document.getElementById('weekly-craving-chart');
+  let wHTML='';
+  const dayNames=['日','一','二','三','四','五','六'];
+  let maxW=1;
+  const wData=[];
+  for(let i=0;i<7;i++){
+    const d=new Date(weekStart.getTime()+i*86400000);
+    const dk=dateKey(d);
+    const cnt=D.cravings.filter(c=>dateKey(new Date(c.time))===dk).length;
+    wData.push(cnt);
+    if(cnt>maxW) maxW=cnt;
+  }
+  wData.forEach((v,i)=>{
+    const h=v/maxW*80;
+    wHTML+=`<div class="bar-wrap"><div class="bar-val">${v||''}</div><div class="bar" style="height:${h}px"></div><div class="bar-label">${dayNames[i]}</div></div>`;
+  });
+  wChart.innerHTML=wHTML;
+  
+  // Hourly chart
+  const hChart = document.getElementById('hourly-chart');
+  const hourData=new Array(24).fill(0);
+  D.cravings.forEach(c=>{hourData[new Date(c.time).getHours()]++});
+  const maxH=Math.max(1,...hourData);
+  let peakHour=-1,peakVal=0;
+  hourData.forEach((v,i)=>{if(v>peakVal){peakVal=v;peakHour=i}});
+  hChart.innerHTML=hourData.map((v,i)=>{
+    const h=v/maxH*80;
+    const isPeak=i===peakHour&&v>0;
+    return `<div class="bar-wrap"><div class="bar-val">${v||''}</div><div class="bar" style="height:${h}px;${isPeak?'background:var(--yellow)':''}"></div><div class="bar-label">${i%6===0?i+'时':''}</div></div>`;
+  }).join('');
+  
+  // Mood chart
+  const mChart=document.getElementById('mood-chart');
+  const recent=D.checkins.slice(-14);
+  if(recent.length===0){mChart.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">暂无数据</div>';return}
+  const maxMood=3;
+  mChart.innerHTML=recent.map(c=>{
+    const v=c.mood>=0?c.mood:1;
+    const h=(v+1)/(maxMood+1)*60;
+    const colors=['var(--red)','var(--text3)','var(--blue)','var(--green)'];
+    return `<div class="bar-wrap"><div class="bar-val">${c.mood>=0?MOODS[c.mood]:''}</div><div class="bar" style="height:${h}px;background:${colors[v]}"></div><div class="bar-label">${c.date.slice(5)}</div></div>`;
+  }).join('');
+}
+
+// ===== COST =====
+function renderCost(){
+  const list=document.getElementById('cost-list');
+  if(D.costItems.length===0){list.innerHTML='<div style="color:var(--text3);font-size:13px">暂无产品</div>';
+  }else{
+    list.innerHTML=D.costItems.map((item,i)=>
+      `<div class="cost-item"><div>${item.name}<br><span style="color:var(--text3);font-size:11px">$${item.price} / ${item.days}天</span></div>
+      <button class="btn-outline btn-sm" style="color:var(--red);border-color:var(--red)" onclick="removeCostItem(${i})">删除</button></div>`
+    ).join('');
+  }
+  const dailyCost=D.costItems.reduce((s,it)=>s+it.price/it.days,0);
+  document.getElementById('daily-cost').textContent='$'+dailyCost.toFixed(2)+'/天';
+  const days=D.startTime?((Date.now()-D.startTime)/86400000):0;
+  document.getElementById('saved-amount').textContent='$'+(dailyCost*days).toFixed(2);
+}
+function addCostItem(){
+  const n=document.getElementById('ci-name').value.trim();
+  const p=parseFloat(document.getElementById('ci-price').value);
+  const d=parseInt(document.getElementById('ci-days').value);
+  if(!n||!p||!d||d<=0){alert('请填写完整的产品信息');return}
+  D.costItems.push({name:n,price:p,days:d});
+  save();renderCost();
+  document.getElementById('ci-name').value='';
+  document.getElementById('ci-price').value='';
+  document.getElementById('ci-days').value='';
+}
+function removeCostItem(i){D.costItems.splice(i,1);save();renderCost()}
+
+// ===== HISTORY =====
+function renderHistory(){
+  const el=document.getElementById('history-list');
+  if(D.checkins.length===0){el.innerHTML='<div style="color:var(--text3);font-size:13px;text-align:center;padding:10px">暂无打卡记录</div>';return}
+  el.innerHTML=[...D.checkins].reverse().map(c=>{
+    const t=new Date(c.time);
+    const cravs=D.cravings.filter(cr=>dateKey(new Date(cr.time))===c.date);
+    return `<div class="hist-item">
+      <div style="display:flex;justify-content:space-between">
+        <span>${c.date} ${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}</span>
+        <span>${c.mood>=0?MOODS[c.mood]:''}</span>
+      </div>
+      ${c.note?'<div style="color:var(--text2);font-size:12px;margin-top:4px">'+c.note+'</div>':''}
+      ${cravs.length?'<div style="color:var(--red);font-size:11px;margin-top:4px">🔥 烟瘾 '+cravs.length+'次 ('+cravs.map(cr=>{const d=new Date(cr.time);return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}).join(', ')+')</div>':''}
+    </div>`;
+  }).join('');
+}
+
+// ===== UTILS =====
+function dateKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quit_smoking_backup.json';a.click();
+}
+function resetData(){
+  if(!confirm('确定要重置所有数据吗？此操作不可恢复！'))return;
+  if(!confirm('真的确定吗？所有打卡记录都会丢失！'))return;
+  localStorage.removeItem(LS);
+  D=load();save();render();
+}
+
+// ===== RENDER =====
+function render(){
+  const started=!!D.startTime;
+  document.getElementById('start-btn').textContent=started?'重新开始':'开始戒烟之旅';
+  renderPhase();
+  renderGrid();
+  renderMilestones();
+  renderBadges();
+  renderQuote();
+  if(!started){
+    document.getElementById('phase-card').style.opacity='.5';
+  }else{
+    document.getElementById('phase-card').style.opacity='1';
+  }
+}
+
+// ===== INIT =====
+render();
+startTimer();
+
+// ===== SERVICE WORKER =====
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+}catch(err){
+  document.getElementById('app').innerHTML=`<div class="err-box">
+    <div>😵 出错了</div><div style="font-size:12px;margin:8px 0">${err.message}</div>
+    <button onclick="localStorage.removeItem('quit_smoking_v1');location.reload()">重置数据并刷新</button>
+  </div>`;
+}
+</script>
+</body>
+</html>
