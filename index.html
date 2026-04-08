@@ -128,6 +128,7 @@ footer{text-align:center;font-size:11px;color:var(--text3);padding:20px 0 40px}
 .err-box button{margin-top:10px;background:#fff;color:var(--red)}
 input[type="text"],input[type="number"]{padding:8px;border-radius:8px;background:var(--bg1);border:1px solid var(--border);color:var(--text);font-size:13px;font-family:inherit}
 #import-input{display:none}
+label.btn-blue{background:linear-gradient(135deg,#3B82F6,var(--blue));color:#fff}
 </style>
 </head>
 <body>
@@ -153,7 +154,12 @@ input[type="text"],input[type="number"]{padding:8px;border-radius:8px;background
 <div id="tab-stats" class="hidden">
 <div class="card"><h3>📈 本周总结</h3><div class="stat-row" id="weekly-stats"></div></div>
 <div class="card"><h3>✊ vs 🚬 本周对抗</h3><div class="bar-chart" id="weekly-battle-chart"></div></div>
-<div class="card"><h3>🚬 本周吸入口数</h3><div class="bar-chart" id="puffs-chart"></div></div>
+<div class="card"><h3>🚬 本周吸入口数</h3>
+<div id="puffs-summary" style="margin-bottom:10px"></div>
+<div id="puffs-handroll"></div>
+<div id="puffs-vape"></div>
+<div id="puffs-nrt"></div>
+</div>
 <div class="card"><h3>⏰ 烟瘾高发时段</h3><div class="bar-chart" id="hourly-chart"></div></div>
 <div class="card"><h3>🏷️ 触发原因 TOP</h3><div id="trigger-stats"></div></div>
 <div class="card"><h3>😊 心情趋势</h3><div class="bar-chart" id="mood-chart" style="height:80px"></div></div>
@@ -167,8 +173,8 @@ input[type="text"],input[type="number"]{padding:8px;border-radius:8px;background
 <div class="card"><h3>📋 完整记录</h3><div id="history-list"></div></div>
 <div class="card" style="text-align:center">
 <button class="btn-blue btn-sm" onclick="exportData()">📤 导出备份</button>
-<button class="btn-blue btn-sm" style="margin-left:8px" onclick="document.getElementById('import-input').click()">📥 导入备份</button>
-<input type="file" id="import-input" accept=".json" onchange="importData(event)">
+<label for="import-input" class="btn-blue btn-sm" style="display:inline-block;margin-left:8px;cursor:pointer">📥 导入备份</label>
+<input type="file" id="import-input" accept=".json,.txt" onchange="importData(event)">
 <div style="margin-top:12px"><button class="btn-outline btn-sm" style="color:var(--red);border-color:var(--red)" onclick="resetData()">🗑️ 重置数据</button></div>
 </div>
 </div>
@@ -197,7 +203,12 @@ var PHASES=[
 {name:'\u9636\u6bb54\uff1a\u53e3\u542b\u70df\u9012\u51cf',goal:'\u53ea\u7528\u76ee\u6807\u6d53\u5ea6\u6216\u66f4\u4f4e\u7684\u53e3\u542b\u70df',slipTypes:['handroll','vape','nrt_over'],days:56}
 ];
 var SLIP_TYPES=[{id:'handroll',label:'\ud83d\udeb0 \u624b\u5377\u70df'},{id:'vape',label:'\ud83d\udca8 \u7535\u5b50\u70df'},{id:'nrt_over',label:'\ud83d\udc8a \u53e3\u542b\u70df\u8d85\u6807'}];
-var PUFFS_OPTIONS=[{id:1,label:'1-2\u53e3',val:1.5},{id:2,label:'\u534a\u6839',val:5},{id:3,label:'1\u6839',val:10},{id:4,label:'\u597d\u51e0\u6839',val:25}];
+var PUFFS_OPTIONS={
+handroll:[{id:1,label:'1-2\u53e3',val:1.5},{id:2,label:'\u534a\u6839',val:5},{id:3,label:'1\u6839',val:10},{id:4,label:'\u597d\u51e0\u6839',val:25}],
+vape:[{id:11,label:'\u51e0\u53e3(<5)',val:3},{id:12,label:'\u5341\u51e0\u53e3',val:15},{id:13,label:'\u4e00\u9635\u5b50(~30)',val:30},{id:14,label:'\u62bd\u4e86\u5f88\u4e45(50+)',val:60}],
+nrt_over:[{id:21,label:'1\u9897',val:5},{id:22,label:'2\u9897',val:10},{id:23,label:'3\u9897+',val:18}]
+};
+function getPuffsOpts(slipType){return PUFFS_OPTIONS[slipType]||PUFFS_OPTIONS.handroll}
 var TRIGGERS=['\u538b\u529b','\u65e0\u804a','\u996d\u540e','\u5496\u5561/\u8336','\u793e\u4ea4','\u9152\u540e','\u8d77\u5e8a\u540e','\u4e60\u60ef\u6027','\u60c5\u7eea\u4f4e\u843d','\u5f00\u8f66\u65f6','\u4f11\u606f\u65f6','\u5176\u4ed6'];
 var PHASE_MILESTONES=[
 {phase:0,day:1,icon:'\ud83d\ude80',t:'\u6b63\u5f0f\u5f00\u59cb',d:'\u8fc8\u51fa\u7b2c\u4e00\u6b65\uff0c\u5df2\u7ecf\u8d62\u4e86\u5f88\u591a\u4eba'},
@@ -238,6 +249,12 @@ function migrate(d){
 if(!d.version)d.version=1;
 if(!d.nicotineFreeTime)d.nicotineFreeTime=null;
 if(!d.celebratedPhase)d.celebratedPhase=[];
+if(!d.celebratedMilestones)d.celebratedMilestones=[];
+if(!Array.isArray(d.events))d.events=[];
+if(!Array.isArray(d.reviews))d.reviews=[];
+if(!Array.isArray(d.costItems))d.costItems=[];
+if(d.nrt===undefined)d.nrt=6;
+if(!d.startTime)d.startTime=null;
 d.version=DATA_VERSION;
 return d;
 }
@@ -293,10 +310,9 @@ checkHealthMilestones();
 }
 function startJourney(){
 if(D.startTime){
-if(!confirm('\u5df2\u7ecf\u5728\u8fdb\u884c\u4e2d\u3002\u8981\u5148\u5bfc\u51fa\u5907\u4efd\u518d\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
-exportData();
-if(!confirm('\u5907\u4efd\u5df2\u4e0b\u8f7d\u3002\u786e\u5b9a\u8981\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
-D.startTime=null;D.events=[];D.reviews=[];D.celebratedMilestones=[];D.celebratedPhase=[];D.nicotineFreeTime=null;}
+if(!confirm('\u5df2\u7ecf\u5728\u8fdb\u884c\u4e2d\u3002\u91cd\u65b0\u5f00\u59cb\u4f1a\u6e05\u9664\u6240\u6709\u8bb0\u5f55\uff01\n\n\u5efa\u8bae\u5148\u53bb\u300c\u8bb0\u5f55\u300d\u9875\u5bfc\u51fa\u5907\u4efd\u3002\n\n\u786e\u5b9a\u8981\u91cd\u65b0\u5f00\u59cb\u5417\uff1f'))return;
+if(!confirm('\u6700\u540e\u786e\u8ba4\uff1a\u6240\u6709\u6570\u636e\u5c06\u88ab\u6e05\u9664'))return;
+D.events=[];D.reviews=[];D.celebratedMilestones=[];D.celebratedPhase=[];D.nicotineFreeTime=null;}
 D.startTime=Date.now();save();render();
 }
 
@@ -325,7 +341,7 @@ var pStr=todayPuffs>0?' \u00b7 ~'+Math.round(todayPuffs)+'\u53e3':'';
 var r='';
 if(todayEv.length>0){
 if(badSlips===0)r='<span style="color:var(--green)">\u2705 \u4eca\u65e5\u8fbe\u6807\uff01</span> \u5fcd\u4f4f'+resists+'\u6b21 \u00b7 \u66ff\u4ee3'+nrts+'\u6b21';
-else r='<span style="color:var(--orange)">\u26a0\ufe0f '+badSlips+'\u6b21\u6ed1\u843d'+pStr+'</span> \u5fcd\u4f4f\u4e86'+resists+'\u6b21';
+else r='<span style="color:var(--orange)">\u26a0\ufe0f '+badSlips+'\u6b21\u6ed1\u843d'+pStr+'</span>'+(resists>0?' \u5fcd\u4f4f\u4e86'+resists+'\u6b21\uff0c':' ')+'\u7ee7\u7eed\u52a0\u6cb9';
 }
 document.getElementById('phase-result').innerHTML=r;
 /* Auto-detect nicotine free */
@@ -349,19 +365,20 @@ var puffsSec=document.getElementById('ts-puffs');
 if(type==='slip'){
 slipSec.classList.remove('hidden');puffsSec.classList.remove('hidden');
 document.getElementById('slip-types').innerHTML=SLIP_TYPES.map(function(s){return '<div class="tag" onclick="pickSlipType(this,\''+s.id+'\')">'+s.label+'</div>'}).join('');
-document.getElementById('puffs-options').innerHTML=PUFFS_OPTIONS.map(function(p){return '<div class="tag" onclick="pickPuffs(this,'+p.id+')">'+p.label+'</div>'}).join('');
+document.getElementById('puffs-options').innerHTML=PUFFS_OPTIONS.handroll.map(function(p){return '<div class="tag" onclick="pickPuffs(this,'+p.id+')">'+p.label+'</div>'}).join('');
 }else{slipSec.classList.add('hidden');puffsSec.classList.add('hidden')}
 openTagSheet();
 }
 function toggleTrigger(el,t){el.classList.toggle('sel');var i=selectedTriggers.indexOf(t);if(i>=0)selectedTriggers.splice(i,1);else selectedTriggers.push(t)}
-function pickSlipType(el,id){document.querySelectorAll('#slip-types .tag').forEach(function(t){t.classList.remove('sel')});el.classList.add('sel');selectedSlipType=id}
+function pickSlipType(el,id){document.querySelectorAll('#slip-types .tag').forEach(function(t){t.classList.remove('sel')});el.classList.add('sel');selectedSlipType=id;selectedPuffs=null;
+var opts=getPuffsOpts(id);document.getElementById('puffs-options').innerHTML=opts.map(function(p){return '<div class="tag" onclick="pickPuffs(this,'+p.id+')">'+p.label+'</div>'}).join('')}
 function pickPuffs(el,id){document.querySelectorAll('#puffs-options .tag').forEach(function(t){t.classList.remove('sel')});el.classList.add('sel');selectedPuffs=id}
 function pickNrt(el,v){document.querySelectorAll('#ts-nrt-row .nrt-btn').forEach(function(b){b.classList.remove('sel')});el.classList.add('sel');selectedNrt=v}
 function confirmEvent(){
 if(!pendingEvent)return;
 var ev={type:pendingEvent.type,time:pendingEvent.time,triggers:selectedTriggers.slice()};
 if(pendingEvent.type==='slip'&&selectedSlipType)ev.slipType=selectedSlipType;
-if(pendingEvent.type==='slip'&&selectedPuffs){for(var i=0;i<PUFFS_OPTIONS.length;i++){if(PUFFS_OPTIONS[i].id===selectedPuffs){ev.puffsId=PUFFS_OPTIONS[i].id;ev.puffsLabel=PUFFS_OPTIONS[i].label;ev.puffsVal=PUFFS_OPTIONS[i].val;break}}}
+if(pendingEvent.type==='slip'&&selectedPuffs){var opts=getPuffsOpts(selectedSlipType);for(var i=0;i<opts.length;i++){if(opts[i].id===selectedPuffs){ev.puffsId=opts[i].id;ev.puffsLabel=opts[i].label;ev.puffsVal=opts[i].val;break}}}
 if(pendingEvent.type==='nrt')ev.nrtMg=selectedNrt;
 D.events.push(ev);
 if(pendingEvent.type==='nrt'){D.nrt=selectedNrt;if(selectedNrt>0)D.nicotineFreeTime=null}
@@ -373,6 +390,11 @@ render();pendingEvent=null;
 }
 function openTagSheet(){document.getElementById('tag-bg').classList.add('open');document.getElementById('tag-sheet').classList.add('open')}
 function closeTagSheet(){document.getElementById('tag-bg').classList.remove('open');document.getElementById('tag-sheet').classList.remove('open');pendingEvent=null}
+function deleteEvent(time){
+if(!confirm('\u5220\u9664\u8fd9\u6761\u8bb0\u5f55\uff1f'))return;
+D.events=D.events.filter(function(e){return e.time!==time});
+save();render();showToast('\u5df2\u5220\u9664');
+}
 
 /* ===== TOAST ===== */
 var toastTimer;
@@ -405,7 +427,7 @@ for(var i=0;i<todayEv.length;i++){var ev=todayEv[i],extra='';
 if(ev.slipType){for(var j=0;j<SLIP_TYPES.length;j++){if(SLIP_TYPES[j].id===ev.slipType){extra=SLIP_TYPES[j].label;break}}}
 if(ev.puffsLabel)extra+=(extra?' \u00b7 ':'')+ev.puffsLabel;
 if(ev.nrtMg!==undefined)extra=ev.nrtMg+'mg';
-h+='<div class="ev-item"><div class="ev-icon">'+icons[ev.type]+'</div><div class="ev-body"><div class="ev-time">'+fmtTime(ev.time)+'</div><div class="ev-text" style="color:'+colors[ev.type]+'">'+labels[ev.type]+(extra?' \u00b7 '+extra:'')+'</div>'+(ev.triggers&&ev.triggers.length?'<div class="ev-tags">\u89e6\u53d1\uff1a'+ev.triggers.join(' \u00b7 ')+'</div>':'')+'</div></div>'}
+h+='<div class="ev-item"><div class="ev-icon">'+icons[ev.type]+'</div><div class="ev-body"><div class="ev-time">'+fmtTime(ev.time)+'</div><div class="ev-text" style="color:'+colors[ev.type]+'">'+labels[ev.type]+(extra?' \u00b7 '+extra:'')+'</div>'+(ev.triggers&&ev.triggers.length?'<div class="ev-tags">\u89e6\u53d1\uff1a'+ev.triggers.join(' \u00b7 ')+'</div>':'')+'</div><div style="cursor:pointer;color:var(--text3);font-size:16px;padding:4px 0 4px 8px" onclick="deleteEvent('+ev.time+')">\u00d7</div></div>'}
 el.innerHTML=h;
 }
 
@@ -516,15 +538,11 @@ var twR=thisWeek.filter(function(e){return e.type==='resist'}).length;
 var twS=thisWeek.filter(function(e){return e.type==='slip'}).length;
 var twN=thisWeek.filter(function(e){return e.type==='nrt'}).length;
 var twT=twR+twS;var rRate=twT>0?Math.round(twR/twT*100):0;
-var twP=thisWeek.reduce(function(s,e){return s+(e.puffsVal||0)},0);
-var lwP=lastWeek.reduce(function(s,e){return s+(e.puffsVal||0)},0);
-var pC=lwP>0?Math.round((twP-lwP)/lwP*100):0;
 document.getElementById('weekly-stats').innerHTML=
 '<div class="stat-box"><div class="num" style="color:var(--green)">'+twR+'</div><div class="lbl">\u5fcd\u4f4f</div></div>'+
 '<div class="stat-box"><div class="num" style="color:var(--yellow)">'+twN+'</div><div class="lbl">\u66ff\u4ee3</div></div>'+
 '<div class="stat-box"><div class="num" style="color:var(--red)">'+twS+'</div><div class="lbl">\u6ed1\u843d</div></div>'+
-'<div class="stat-box"><div class="num" style="color:'+(rRate>=60?'var(--green)':'var(--orange)')+'">'+rRate+'%</div><div class="lbl">\u5fcd\u4f4f\u7387</div></div>'+
-'<div class="stat-box"><div class="num" style="color:var(--red)">~'+Math.round(twP)+'</div><div class="lbl">\u53e3\u6570 '+(pC<=0?'<span style="color:var(--green)">'+pC+'%</span>':'<span style="color:var(--red)">+'+pC+'%</span>')+'</div></div>';
+'<div class="stat-box"><div class="num" style="color:'+(rRate>=60?'var(--green)':'var(--orange)')+'">'+rRate+'%</div><div class="lbl">\u5fcd\u4f4f\u7387</div></div>';
 var dayNames=['\u4e00','\u4e8c','\u4e09','\u56db','\u4e94','\u516d','\u65e5'];
 /* Battle chart */
 var wC=document.getElementById('weekly-battle-chart');var maxW=1,wD=[];
@@ -534,14 +552,26 @@ var s=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.type=
 wD.push({r:r,s:s});if(r+s>maxW)maxW=r+s}
 wC.innerHTML=wD.map(function(v,i){var rh=v.r/maxW*70,sh=v.s/maxW*70;
 return '<div class="bar-wrap"><div class="bar-val">'+(v.r+v.s||'')+'</div><div style="width:100%;display:flex;flex-direction:column"><div class="bar" style="height:'+sh+'px;background:var(--red);border-radius:3px 3px 0 0"></div><div class="bar" style="height:'+rh+'px;background:var(--green)"></div></div><div class="bar-label">'+dayNames[i]+'</div></div>'}).join('');
-/* Puffs chart */
-var pC2=document.getElementById('puffs-chart');var pD=[],maxPf=1;
+/* Puffs charts - per type */
+var puffTypes=[{key:'handroll',label:'\ud83d\udeb0 \u624b\u5377',color:'var(--red)',elId:'puffs-handroll'},{key:'vape',label:'\ud83d\udca8 \u7535\u5b50\u70df',color:'var(--purple)',elId:'puffs-vape'},{key:'nrt_over',label:'\ud83d\udc8a \u53e3\u542b\u70df\u8d85\u6807',color:'var(--orange)',elId:'puffs-nrt'}];
+var summaryParts=[];
+puffTypes.forEach(function(pt){
+var twPt=thisWeek.filter(function(e){return e.slipType===pt.key}).reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var lwPt=lastWeek.filter(function(e){return e.slipType===pt.key}).reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var change=lwPt>0?Math.round((twPt-lwPt)/lwPt*100):0;
+if(twPt>0||lwPt>0)summaryParts.push('<span style="color:'+pt.color+'">'+pt.label+' ~'+Math.round(twPt)+'\u53e3'+(lwPt>0?(change<=0?' <span style="color:var(--green)">'+change+'%</span>':' <span style="color:var(--red)">+'+change+'%</span>'):'')+'</span>');
+var pD=[],maxPf=1;
 for(var i=0;i<7;i++){var d=new Date(weekStart.getTime()+i*86400000);var dk=dateKey(d);
-var dp=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.type==='slip'}).reduce(function(s,e){return s+(e.puffsVal||0)},0);
+var dp=D.events.filter(function(e){return dateKey(new Date(e.time))===dk&&e.slipType===pt.key}).reduce(function(s,e){return s+(e.puffsVal||0)},0);
 pD.push(dp);if(dp>maxPf)maxPf=dp}
-var hP=pD.some(function(v){return v>0});
-if(!hP){pC2.innerHTML='<div style="color:var(--text3);font-size:13px;width:100%;text-align:center;align-self:center">\u6682\u65e0\u6570\u636e</div>'}
-else{pC2.innerHTML=pD.map(function(v,i){var h=v/maxPf*70;return '<div class="bar-wrap"><div class="bar-val">'+(v?'~'+Math.round(v):'')+'</div><div class="bar" style="height:'+h+'px;background:var(--orange)"></div><div class="bar-label">'+dayNames[i]+'</div></div>'}).join('')}
+var hasData=pD.some(function(v){return v>0});
+var el=document.getElementById(pt.elId);
+if(!hasData){el.innerHTML=''}
+else{el.innerHTML='<div style="font-size:12px;color:'+pt.color+';margin:8px 0 4px;font-weight:600">'+pt.label+'</div><div class="bar-chart" style="height:70px">'+pD.map(function(v,i){var h=v/maxPf*55;return '<div class="bar-wrap"><div class="bar-val">'+(v?'~'+Math.round(v):'')+'</div><div class="bar" style="height:'+h+'px;background:'+pt.color+'"></div><div class="bar-label">'+dayNames[i]+'</div></div>'}).join('')+'</div>'}
+});
+var pSumEl=document.getElementById('puffs-summary');
+if(!summaryParts.length)pSumEl.innerHTML='<div style="color:var(--text3);font-size:13px;text-align:center">\u6682\u65e0\u6ed1\u843d\u6570\u636e\uff08\u5f88\u597d\uff01\uff09</div>';
+else pSumEl.innerHTML='<div style="font-size:13px;text-align:center;line-height:2">'+summaryParts.join(' \u00b7 ')+'</div>';
 /* Hourly - labels every 6h */
 var hC=document.getElementById('hourly-chart');var hD=new Array(24).fill(0);
 D.events.forEach(function(e){if(e.type!=='nrt')hD[new Date(e.time).getHours()]++});
@@ -612,9 +642,23 @@ return '<div class="hist-item"><div style="display:flex;justify-content:space-be
 
 /* ===== IMPORT / EXPORT ===== */
 function exportData(){
-var blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
-var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quit_smoking_backup_'+today()+'.json';a.click();
-showToast('\ud83d\udce4 \u5907\u4efd\u5df2\u4e0b\u8f7d');
+var json=JSON.stringify(D,null,2);
+var blob=new Blob([json],{type:'application/json'});
+/* Try native share (iOS), fallback to download */
+if(navigator.share&&navigator.canShare){
+var file=new File([json],'quit_smoking_backup_'+today()+'.json',{type:'application/json'});
+navigator.share({files:[file],title:'\u6212\u70df\u6570\u636e\u5907\u4efd'}).catch(function(){
+/* Share cancelled or failed, try download */
+dlBlob(blob);
+});
+}else{dlBlob(blob)}
+showToast('\ud83d\udce4 \u5907\u4efd\u5df2\u5bfc\u51fa');
+}
+function dlBlob(blob){
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');a.href=url;a.download='quit_smoking_backup_'+today()+'.json';
+document.body.appendChild(a);a.click();
+setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url)},1000);
 }
 function importData(evt){
 var file=evt.target.files[0];if(!file)return;
@@ -622,14 +666,15 @@ var reader=new FileReader();
 reader.onload=function(e){
 try{
 var imported=JSON.parse(e.target.result);
-if(!imported.events&&!imported.startTime){alert('\u65e0\u6548\u7684\u5907\u4efd\u6587\u4ef6');return}
-if(!confirm('\u5bfc\u5165\u5c06\u8986\u76d6\u5f53\u524d\u6570\u636e\uff0c\u786e\u5b9a\u5417\uff1f'))return;
+if(typeof imported!=='object'||imported===null||(!Array.isArray(imported.events)&&!imported.startTime)){
+alert('\u65e0\u6548\u7684\u5907\u4efd\u6587\u4ef6\uff1a\u7f3a\u5c11 events \u6216 startTime');return}
+if(!confirm('\u5bfc\u5165\u5c06\u8986\u76d6\u5f53\u524d\u6240\u6709\u6570\u636e\uff0c\u786e\u5b9a\u5417\uff1f'))return;
 D=migrate(imported);save();render();
 showToast('\ud83d\udce5 \u6570\u636e\u5df2\u6062\u590d\uff01');
 }catch(err){alert('\u6587\u4ef6\u89e3\u6790\u5931\u8d25\uff1a'+err.message)}
+evt.target.value='';
 };
 reader.readAsText(file);
-evt.target.value='';
 }
 function resetData(){
 if(!confirm('\u786e\u5b9a\u91cd\u7f6e\uff1f\u5efa\u8bae\u5148\u5bfc\u51fa\u5907\u4efd\uff01'))return;
@@ -645,6 +690,7 @@ document.getElementById('start-btn').textContent=started?'\u21bb \u91cd\u65b0\u5
 document.getElementById('action-card').classList.toggle('hidden',!started);
 document.getElementById('phase-card').style.opacity=started?'1':'.5';
 renderPhase();renderTimeline();renderGrid();renderPhaseMilestones();renderHealthMilestones();renderBadges();renderQuote();
+updateTimer();
 }
 
 render();startTimer();
