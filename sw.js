@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quit-smoking-v1';
+const CACHE_NAME = 'quit-smoking-v2';
 const ASSETS = [
   './',
   './index.html',
